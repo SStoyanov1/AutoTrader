@@ -1,0 +1,12 @@
+.container
+    .jumbotron
+        h1 Auto Trader
+    .row
+        .col-md-6
+            .panel.panel-info
+                .panel-heading.text-center Most popular
+                .panel-body(ng-include="'partials/main/most-popular-cars'")
+        .col-md-6
+            .panel.panel-info
+                .panel-heading.text-center New
+                .panel-body(ng-include="'partials/main/newest-cars'")

@@ -41,27 +41,16 @@ db.once('open', function(err) {
     console.log('Database running...')
 });
 
-var messageSchema = mongoose.Schema({
-   message: String
-});
-
-var Message = mongoose.model('Message', messageSchema);
-var messageFromDb;
-Message.create({message: 'Hi from mongoose'})
-    .then(function(model) {
-        messageFromDb = model.message;
-});
-
 db.on('error', function(err) {
    console.log('Database error ' + err);
 });
 
-app.get('/partials/:partialName', function(req, res) {
-    res.render('partials/' + req.params.partialName);
+app.get('/partials/:partialDir/:partialName', function(req, res) {
+    res.render('partials/' + req.params.partialDir + '/' + req.params.partialName);
 });
 
 app.get('*', function(req, res) {
-   res.render('index', { message: messageFromDb });
+   res.render('index');
 });
 
 app.listen(port);
