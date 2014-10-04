@@ -8,7 +8,9 @@ var port = process.env.PORT || 3030;
 var app = express();
 
 app.set('view engine', 'jade');
-app.set(bodyParser());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.set('views', __dirname + '/server/views');
 app.use(stylus.middleware(
     {
@@ -32,7 +34,7 @@ var db = mongoose.connection;
 
 db.once('open', function(err) {
     if (err) {
-        console.log('Database could not be opend ' + err);
+        console.log('Database could not be opened ' + err);
         return;
     }
 

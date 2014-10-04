@@ -1,5 +1,15 @@
 extends includes/layout
 block main-content
-    h2 MEAN Stack End-to-end JS App
+    .nav.navbar-inverse.navbar-fixed-top
+        .container
+            .navbar-header
+                a.navbar-brand(href="#/") Auto Trader
+            .navbar-collapse.collapse
+                ul.nav.navbar-nav
+                    li
+                        a(href="/") Home
     div(ng-view)
-    h3=message
+
+    footer
+        p.text-center
+            | &copy Telerik Academy 2014
