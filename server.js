@@ -4,7 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose');
 
 var env = process.env.NODE_ENV || 'development';
-var port = 3030;
+var port = process.env.PORT || 3030;
 var app = express();
 
 app.set('view engine', 'jade');
@@ -21,7 +21,13 @@ app.use(stylus.middleware(
 
 app.use(express.static(__dirname + '/public'));
 
-mongoose.connect('mongodb://localhost/autotraderdb');
+if (env == 'development') {
+    mongoose.connect('mongodb://localhost/autotraderdb');
+}
+else {
+    mongoose.connect("mongodb://admin:autotraderdb@ds063909.mongolab.com:63909/autotraderdb");
+}
+
 var db = mongoose.connection;
 
 db.once('open', function(err) {
@@ -58,3 +64,4 @@ app.get('*', function(req, res) {
 
 app.listen(port);
 console.log('Server running on port: '+ port);
+console.log(env);
