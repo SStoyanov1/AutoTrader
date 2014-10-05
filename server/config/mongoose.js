@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     passport = require('passport'),
+    crypto = require('crypto'),
     LocalPassport = require('passport-local');
 
 module.exports = function(config) {
@@ -23,9 +24,20 @@ module.exports = function(config) {
     var userSchema = mongoose.Schema({
         username: String,
         firstName: String,
-        lastName: String
-        //salt: String,
-        //hashPass: String
+        lastName: String,
+        salt: String,
+        hashPass: String
+    });
+
+    userSchema.method({
+        authenticate: function(password) {
+            if (encryption.generateHashedPassword(this.salt, password) === this.hashPass) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     });
 
     var User = mongoose.model('User', userSchema);
@@ -36,12 +48,21 @@ module.exports = function(config) {
             return;
         }
 
+
         if (collection.length === 0) {
-            User.create({username: 'gosho', firstName: 'Georgi', lastName: 'Georgiev'});
-            User.create({username: 'misho', firstName: 'Mihail', lastName: 'Mikov'});
-            User.create({username: 'pesho', firstName: 'Peter', lastName: 'Johnson'});
+            var salt;
+            var hashedP
+            salt = generateSalt();
+            hashedPwd = generateHashedPassword(salt, 'Georgi');
+            User.create({username: 'gosho', firstName: 'Georgi', lastName: 'Georgiev', salt: salt, hashPass: hashedPwd});
+            salt = generateSalt();
+            hashedPwd = generateHashedPassword(salt, 'Mihail');
+            User.create({username: 'misho', firstName: 'Mihail', lastName: 'Mikov', salt: salt, hashPass: hashedPwd});
+            salt = generateSalt();
+            hashedPwd = generateHashedPassword(salt, 'Peter');
+            User.create({username: 'pesho', firstName: 'Peter', lastName: 'Johnson', salt: salt, hashPass: hashedPwd});
             console.log('Users added to database...');
-        }
+        };
     });
 
     passport.use(new LocalPassport(function (username, password, done) {
@@ -82,3 +103,12 @@ module.exports = function(config) {
         })
     });
 };
+
+function generateSalt() {
+    return crypto.randomBytes(128).toString('base64');
+}
+
+function generateHashedPassword(salt, pwd) {
+    var hmac = crypto.createHmac('sha1', salt);
+    return hmac.update(pwd).digest('hex');
+}
