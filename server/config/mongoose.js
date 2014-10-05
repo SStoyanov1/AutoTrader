@@ -23,19 +23,20 @@ module.exports = function(config) {
     var userSchema = mongoose.Schema({
         username: String,
         firstName: String,
-        lastName: String,
-        salt: String,
-        hashPass: String
+        lastName: String
+        //salt: String,
+        //hashPass: String
     });
 
     var User = mongoose.model('User', userSchema);
 
     User.find({}).exec(function(err, collection) {
         if (err) {
-            console.log('Cannot find user ' + err);
+            console.log('Cannot find users ' + err);
+            return;
         }
 
-        if (collection.length == 0) {
+        if (collection.length === 0) {
             User.create({username: 'gosho', firstName: 'Georgi', lastName: 'Georgiev'});
             User.create({username: 'misho', firstName: 'Mihail', lastName: 'Mikov'});
             User.create({username: 'pesho', firstName: 'Peter', lastName: 'Johnson'});

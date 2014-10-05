@@ -1,3 +1,5 @@
+var passport = require('passport');
+
 module.exports = function(app) {
     app.get('/partials/:partialDir/:partialName', function(req, res) {
         res.render('../../public/app/' + req.params.partialDir + '/' + req.params.partialName);
@@ -14,13 +16,14 @@ module.exports = function(app) {
 
            req.logIn(user, function(err) {
                if (err) {
+                   console.log(err);
                    return next(err);
                }
                res.send({success: true, user: user});
            })
        });
 
-        auth(req, res, next);
+       auth(req, res, next);
     });
 
     app.get('*', function(req, res) {

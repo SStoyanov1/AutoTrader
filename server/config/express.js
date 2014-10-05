@@ -9,10 +9,8 @@ module.exports = function(app, config) {
     app.set('view engine', 'jade');
     app.set('views', config.rootPath + '/server/views');
     app.use(cookieParser());
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
-    app.use(session());
+    app.use(bodyParser());
+    app.use(session({secret: 'autotrader', saveUninitialized: true, resave: true}));
     app.use(stylus.middleware(
         {
             src: config.rootPath + '/public',
