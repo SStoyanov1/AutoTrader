@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    passport = require('passport'),
+    LocalPassport = require('passport-local');
 
 module.exports = function(config) {
     mongoose.connect(config.db);
@@ -16,5 +18,66 @@ module.exports = function(config) {
 
     db.on('error', function(err) {
         console.log('Database error ' + err);
+    });
+
+    var userSchema = mongoose.Schema({
+        username: String,
+        firstName: String,
+        lastName: String,
+        salt: String,
+        hashPass: String
+    });
+
+    var User = mongoose.model('User', userSchema);
+
+    User.find({}).exec(function(err, collection) {
+        if (err) {
+            console.log('Cannot find user ' + err);
+        }
+
+        if (collection.length == 0) {
+            User.create({username: 'gosho', firstName: 'Georgi', lastName: 'Georgiev'});
+            User.create({username: 'misho', firstName: 'Mihail', lastName: 'Mikov'});
+            User.create({username: 'pesho', firstName: 'Peter', lastName: 'Johnson'});
+            console.log('Users added to database...');
+        }
+    });
+
+    passport.use(new LocalPassport(function (username, password, done) {
+        User.findOne({ username: username }).exec(function(err, user) {
+           if (err) {
+               console.log('Error loading user: '+ err);
+               return;
+           }
+
+           if (user) {
+               return done(null, user);
+           }
+           else {
+               return done(null, false);
+           }
+        });
+    }));
+
+    passport.serializeUser(function(user, done) {
+       if (user) {
+           return done(null, user._id);
+       }
+    });
+
+    passport.deserializeUser(function(id, done) {
+        User.findOne({_id: id}).exec(function(err, user) {
+            if (err) {
+                console.log('Error loading user: '+ err);
+                return;
+            }
+
+            if (user) {
+                return done(null, user);
+            }
+            else {
+                return done(null, false);
+            }
+        })
     });
 };
