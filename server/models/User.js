@@ -12,7 +12,7 @@ var userSchema = mongoose.Schema({
 
 userSchema.method({
     authenticate: function(password) {
-        if (generateHashedPassword(this.salt, password) === this.hashPass) {
+        if (encryption.generateHashedPassword(this.salt, password) === this.hashPass) {
             return true;
         }
         else {

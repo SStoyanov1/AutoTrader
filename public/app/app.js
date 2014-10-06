@@ -25,10 +25,23 @@ app.config(function($routeProvider, $locationProvider) {
            templateUrl: '/partials/main/home',
            controller: 'MainCtrl'
         })
+        .when('/cars', {
+            templateUrl: '/partials/cars/cars-list',
+            controller: 'CarsListCtrl'
+        })
+        .when('/cars/:id', {
+            templateUrl: '/partials/cars/car-details',
+            controller: 'CarDetailsCtrl'
+        })
         .when('/admin/users', {
             templateUrl: '/partials/admin/users-list',
             controller: 'UserListCtrl',
             resolve: routeUserChecks.adminRole
+        })
+        .when('/profile', {
+            templateUrl: '/partials/account/profile',
+            controller: 'ProfileCtrl',
+            resolve: routeUserChecks.authenticated
         })
 });
 

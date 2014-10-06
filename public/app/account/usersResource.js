@@ -1,9 +1,9 @@
 app.factory('UsersResource', function($resource) {
-    var UserResource = $resource('/api/users/:id', {_id:'@id'});
+    var UsersResource = $resource('/api/users/:id', {_id:'@id'}, { update: {method: 'PUT', isArray: false}});
 
-    UserResource.prototype.isAdmin = function() {
+    UsersResource.prototype.isAdmin = function() {
         return this.roles && this.roles.indexOf('admin') > -1;
     };
 
-    return UserResource;
+    return UsersResource;
 });
