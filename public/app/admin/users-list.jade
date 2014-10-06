@@ -1,0 +1,6 @@
+.container
+    table.table
+        tr(ng-repeat="user in users")
+            td {{ $index + 1 }}
+            td {{ user.firstName }}
+            td {{ user.lastName }}

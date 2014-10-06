@@ -24,5 +24,33 @@ module.exports = {
   logout: function(req, res, next) {
       req.logout();
       res.end();
+  },
+  isAuthenticated: function(req, res, next) {
+      if (!req.isAuthenticated()) {
+          res.status(403);
+          res.end();
+      }
+      else {
+          next();
+      }
+  },
+  isInRole: function(role) {
+      return function(req, res, next) {
+          if (req.isAuthenticated() && req.user.roles.indexOf(role) > -1) {
+              next();
+          }
+          else {
+              res.status(403);
+              res.end();
+          }
+      }
+  },
+  isAuthorizedForRole: function(role) {
+      if (identity.isAuthorizedForRole(role)) {
+          return true;
+      }
+      else {
+          return $q.reject('not authorized');
+      }
   }
 };
