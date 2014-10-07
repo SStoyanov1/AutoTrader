@@ -27,6 +27,9 @@ app.factory('auth', function($q, $http, identity, UsersResource) {
                    else {
                        deferred.resolve(false);
                    }
+               })
+               .error(function(response) {
+                   deferred.reject(response);
                });
 
            return deferred.promise;
@@ -37,7 +40,7 @@ app.factory('auth', function($q, $http, identity, UsersResource) {
            $http.post('/logout').success(function() {
                identity.currentUser = undefined;
                deferred.resolve();
-           })
+           });
 
            return deferred.promise;
        },

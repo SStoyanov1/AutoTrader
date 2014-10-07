@@ -3,8 +3,9 @@ var mongoose = require('mongoose'),
 
 var userSchema = mongoose.Schema({
     username: { type: String, require: '{PATH} is required', unique: true },
-    firstName: { type: String, require: '{PATH} is required' },
-    lastName: { type: String, require: '{PATH} is required' },
+    email: { type: String, require: "{PATH} is required", unique: true },
+    representativeName: String,
+    phoneNumber: String,
     salt: String,
     hashPass: String,
     roles: [String]
@@ -25,24 +26,23 @@ var User = mongoose.model('User', userSchema);
 
 module.exports.seedInitialUsers = function() {
     User.find({}).exec(function(err, collection) {
+        var salt,
+            hashedPwd;
+
         if (err) {
             console.log('Cannot find users ' + err);
             return;
         }
 
         if (collection.length === 0) {
-            var salt;
-            var hashedP
             salt = encryption.generateSalt();
-            hashedPwd = encryption.generateHashedPassword(salt, 'Georgi');
-            User.create({username: 'gosho', firstName: 'Georgi', lastName: 'Georgiev', salt: salt, hashPass: hashedPwd, roles: ['admin']});
-            salt = encryption.generateSalt();
-            hashedPwd = encryption.generateHashedPassword(salt, 'Mihail');
-            User.create({username: 'misho', firstName: 'Mihail', lastName: 'Mikov', salt: salt, hashPass: hashedPwd, roles: ['standard']});
-            salt = encryption.generateSalt();
-            hashedPwd = encryption.generateHashedPassword(salt, 'Peter');
-            User.create({username: 'pesho', firstName: 'Peter', lastName: 'Johnson', salt: salt, hashPass: hashedPwd});
+            hashedPwd = encryption.generateHashedPassword(salt, "password");
+
+            User.create({username: 'gosho', email: "zzz@z.c", phoneNumber: "+1888 332 544", salt: salt, hashPass: hashedPwd, roles: ['admin']});
+            User.create({username: 'misho', email: "noemail@gmail.no", representativeName: "Seller", salt: salt, hashPass: hashedPwd, roles: ['standard']});
+            User.create({username: 'pesho', email: "pesho@guzara.com", salt: salt, hashPass: hashedPwd});
+
             console.log('Users added to database...');
-        };
+        }
     });
 };
