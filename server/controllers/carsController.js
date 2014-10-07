@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
-var Car = require('../models/Car'),
-    Car = require('mongoose').model('Car');
+//var Car = require('../models/Car'),
+//    Car = require('mongoose').model('Car');
+
+var Car = mongoose.model("Car");
 
 module.exports = {
     getAllCars: function(req, res) {

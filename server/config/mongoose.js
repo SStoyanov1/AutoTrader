@@ -1,6 +1,13 @@
 var mongoose = require('mongoose'),
     user = require('../models/User'),
-    car = require('../models/Car');
+    car = require('../models/Car'),
+    make = require("../models/Make"),
+    model = require("../models/Model"),
+    gearboxType = require("../models/GearboxType"),
+    engineType = require("../models/EngineType"),
+    category = require("../models/Category"),
+    color = require("../models/Color"),
+    region = require("../models/Region");
 
 module.exports = function(config) {
     mongoose.connect(config.db);
@@ -21,5 +28,12 @@ module.exports = function(config) {
     });
 
     user.seedInitialUsers();
-    car.seedInitialCars();
+    make.seedInitialMakes();
+    setTimeout(model.seedInitialModels, 2000);
+    gearboxType.seedInitialGearboxTypes();
+    engineType.seedInitialEngineTypes();
+    category.seedInitialCategories();
+    color.seedInitialColors();
+    region.seedInitialRegions();
+    setTimeout(car.seedInitialCars, 5000);
 };

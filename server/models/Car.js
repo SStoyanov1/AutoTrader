@@ -1,12 +1,42 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    REQUIRED = "{PATH} is required",
+    Schema = mongoose.Schema;
 
-var carSchema;
-carSchema = mongoose.Schema({
-    make: String,
-    model: String,
-    firstRegistration: Date,
-    price: Number,
-    region: String,
+var carSchema = mongoose.Schema({
+    make: {
+        type: Schema.Types.ObjectId, require: REQUIRED,
+        ref: "Make"
+    },
+    model: {
+        type: Schema.Types.ObjectId, require: REQUIRED,
+        ref: "Model"
+    },
+    user: {
+        type: Schema.Types.ObjectId, require: REQUIRED,
+        ref: "User"
+    },
+    engineType: {
+        type: Schema.Types.ObjectId, require: REQUIRED,
+        ref: "EngineType"
+    },
+    gearBoxType: {
+        type: Schema.Types.ObjectId, require: REQUIRED,
+        ref: "GearboxType"
+    },
+    category: {
+        type: Schema.Types.ObjectId, require: REQUIRED,
+        ref: "Category"
+    },
+    color: {
+        type: Schema.Types.ObjectId,
+        ref: "Color"
+    },
+    price: { type: Number, require: REQUIRED },
+    yearOfProduction: { type: Number, require: REQUIRED },
+    mileage: { type: Number, require: REQUIRED },
+    horsepower: Number,
+    engineDisplacement: Number,
+    photoUrl: String,
     published: Date
 });
 
@@ -20,9 +50,7 @@ module.exports.seedInitialCars = function() {
         }
 
         if (collection.length === 0) {
-            Car.create({make: 'Mazda', model: 'MX-6', firstRegistration: new Date('1997-03-08'), region: 'Sofia', price: 3000, published: new Date('2014-12-08') });
-            Car.create({make: 'BMW', model: '330', firstRegistration: new Date('1999-03-08'), region: 'Plovdiv', price: 5000, published: new Date('2014-06-08') });
-            Car.create({make: 'Mercedes', model: 'CLK', firstRegistration: new Date('2001-03-08'), region: 'Plovdiv', price: 7000, published: new Date('2014-09-08') });
+            // TODO: Find a proper way for seeding
         }
     });
 };
