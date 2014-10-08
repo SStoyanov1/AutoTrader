@@ -14,8 +14,15 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+Properties/
+
+
+*.Debug.Config
+*.Release.Config
+Web.Config
 
 *.sln
 *.dat
 *.dat.tmp
 *.njsproj
+*.csproj
