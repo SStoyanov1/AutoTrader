@@ -99,8 +99,7 @@ module.exports = {
             if (err) {
                 console.log('Cars could not be loaded: ' + err);
             }
-
-            console.log(collection);
+            
             res.send(collection);
         })
     },
@@ -110,7 +109,7 @@ module.exports = {
                 console.log('Car could not be loaded: ' + err);
             }
 
-            res.send(car);
+            res.redirect('/api/cars');
         })
     },
     createCar: function (req, res) {
@@ -128,7 +127,7 @@ module.exports = {
             car.photoUrl = filePath;
         });
 
-        req.busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
+        req.busboy.on('field', function (fieldname, val) {
             console.log('in field');
             car[fieldname] = val;
         });
@@ -136,7 +135,6 @@ module.exports = {
         req.busboy.on('finish', function () {
             console.log('in finish');
             addCar(car, res);
-            res.redirect('/api/cars');
         });
     },
     addCar: addCar

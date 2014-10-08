@@ -13,6 +13,11 @@ module.exports = function(app) {
     app.post('/api/cars', controllers.cars.createCar);
     app.get('/api/cars/:id', controllers.cars.getCarById);
 
+    app.get('/api/makes', controllers.makes.getAllMakes);
+    app.post('/api/makes', controllers.makes.createMake);
+    app.get('/api/makes/:id', controllers.makes.getMakeById);
+    app.put('/api/makes/:id', controllers.makes.updateMake);
+
     app.get('/partials/:partialDir/:partialName', function(req, res) {
         res.render('../../public/app/' + req.params.partialDir + '/' + req.params.partialName);
     });
