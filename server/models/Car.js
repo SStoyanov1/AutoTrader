@@ -19,7 +19,7 @@ var carSchema = mongoose.Schema({
         type: Schema.Types.ObjectId, require: REQUIRED,
         ref: "EngineType"
     },
-    gearBoxType: {
+    gearboxType: {
         type: Schema.Types.ObjectId, require: REQUIRED,
         ref: "GearboxType"
     },
@@ -36,6 +36,7 @@ var carSchema = mongoose.Schema({
     mileage: { type: Number, require: REQUIRED },
     horsepower: Number,
     engineDisplacement: Number,
+    description: String,
     photoUrl: String,
     published: Date
 });
@@ -44,13 +45,32 @@ var Car = mongoose.model('Car', carSchema);
 
 module.exports.seedInitialCars = function() {
     Car.find({}).exec(function(err, collection) {
+        var carsController = require("../controllers/carsController");
+
         if (err) {
             console.log('Cannot find cars: ' + err);
             return;
         }
 
         if (collection.length === 0) {
-            // TODO: Find a proper way for seeding
+            carsController.createCar({
+                make: "Subaru",
+                model: "Impreza",
+                username: "misho",
+                engineType: "Gasoline",
+                gearboxType: "Sequential",
+                category: "Sedan",
+                color: "Blue",
+                price: 24500,
+                yearOfProduction: 2004,
+                mileage: 54000,
+                horsepower: 275,
+                engineDisplacement: 2000,
+                photoUrl: "no_photo.png",
+                description: "Random description"
+            });
+
+            console.log("Cars added to the database.");
         }
     });
 };
