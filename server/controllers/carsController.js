@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var fs = require('fs');
+var config = require('../config/config');
 //var Car = require('../models/Car'),
 //    Car = require('mongoose').model('Car');
 
@@ -108,13 +110,34 @@ module.exports = {
                 console.log('Car could not be loaded: ' + err);
             }
 
-            res.send(car);  
+            res.send(car);
         })
     },
     createCar: function (req, res) {
-        var newCarData = req.body;
+        var fstream;
+        req.pipe(req.busboy);        
 
-        addCar(newCarData, res);
+        var car = {};
+
+        req.busboy.on('file', function (fieldname, file, filename) {
+            console.log('in photo');
+            var filePath = config.rootPath + '/public/img/cars/' + filename;
+            console.log(filePath);
+            fstream = fs.createWriteStream(filePath);
+            file.pipe(fstream);
+            car.photoUrl = filePath;
+        });
+
+        req.busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
+            console.log('in field');
+            car[fieldname] = val;
+        });
+
+        req.busboy.on('finish', function () {
+            console.log('in finish');
+            addCar(car, res);
+            res.redirect('/api/cars');
+        });
     },
     addCar: addCar
 };

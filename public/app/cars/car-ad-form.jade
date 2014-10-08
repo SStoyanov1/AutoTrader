@@ -1,4 +1,4 @@
-form(name="carAdForm")
+form(name="carAdForm", method='post', action='/api/cars', enctype='multipart/form-data')
     fieldset
         legend {{carAdFormTitle}}
         .row
@@ -7,13 +7,13 @@ form(name="carAdForm")
                     p.title Select the car make and model
                     .col
                         label(for='make') Make
-                        select#make.static-select-width(ng-model="ad.make")
+                        select#make.static-select-width(ng-model="ad.make", name='make')
                             option Nissan
                             option Subaru
                             option Mitsubishi
                     .col
                         label(for='model') Model
-                        select#model.static-select-width(ng-model="ad.model")
+                        select#model.static-select-width(ng-model="ad.model", name='model')
                             option GT-R
                             option Impreza
                             option Colt
@@ -26,19 +26,19 @@ form(name="carAdForm")
                     p.title Mileage
                     .col
                         label(for='mileage') In kilometers
-                        input#mileage.static-number-width(type='number', min='0', ng-model="ad.mileage")
+                        input#mileage.static-number-width(type='number', min='0', ng-model="ad.mileage", name='mileage')
                         | km
                 .row
                     p.title Exterior
                     .col
                         label(for='color') Car color
-                        select#color.static-select-width(ng-model="ad.color")
+                        select#color.static-select-width(ng-model="ad.color", name='color')
                             option Red
                             option Green
                             option Blue
                     .col
                         label(for='category') Category
-                        select#category.static-select-width(ng-model="ad.category")
+                        select#category.static-select-width(ng-model="ad.category", name='category')
                             option Sedan
                             option Coupe
                             option Hatchback
@@ -47,20 +47,20 @@ form(name="carAdForm")
                     p.title Price
                     .col
                         label(for='price') In BGN
-                        input#price.static-number-width(type='number', min='1', ng-model="ad.price")
+                        input#price.static-number-width(type='number', min='1', ng-model="ad.price", name='price')
                         | BGN
                 .row
                     p.title Gearbox & engine
                     .col
                         label(for='gearbox') Gearbox
-                        select#gearbox.stat-sel-raligned-width(ng-model="ad.gearboxType")
+                        select#gearbox.stat-sel-raligned-width(ng-model="ad.gearboxType", name='gearboxType')
                             option
                             option Manual
                             option Sequential
                             option Automatic
                     .col
                         label(for='engine') Engine
-                        select#engine.stat-sel-raligned-width(ng-model="ad.engineType")
+                        select#engine.stat-sel-raligned-width(ng-model="ad.engineType", name='engineType')
                             option
                             option Diesel
                             option Gasoline
@@ -68,20 +68,20 @@ form(name="carAdForm")
                     p.title Horsepower & engine displacement
                     .col
                         label(for='hp') Horsepower
-                        input#hp.static-number-width(type='number', min='1', ng-model="ad.horsepower")
+                        input#hp.static-number-width(type='number', min='1', ng-model="ad.horsepower", name='horsepower')
                         | hp
                     .col
                         label(for='displ') Displacement
-                        input#displ.static-number-width(size='10', type='number', min='1', ng-model="ad.engineDisplacement")
+                        input#displ.static-number-width(size='10', type='number', min='1', ng-model="ad.engineDisplacement", name='engineDisplacement')
                         | cc
                 .row
                     p.title &nbsp;
                     .col
                         label(for='photo') Photo
-                        input#photo(type='file', ng-model="photo")
+                        input#photo(type='file', ng-model="photo", name='photoUrl')
         .row
             p.title Description
             label(for='descr') Add additional information about the vehicle
-            textarea#descr(ng-model="ad.description")
+            textarea#descr(ng-model="ad.description", name='description')
         .row
-            button(ng-click="sendData(ad)", ng-disabled="carAdForm.$invalid") {{carAdFormButton}}
+            input(type='submit', value='{{carAdFormButton}}', ng-click="sendData(ad)", ng-disabled="carAdForm.$invalid")
