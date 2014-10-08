@@ -18,10 +18,16 @@ div(ng-controller='LoginCtrl')
     .slide-menu(ng-show="identity.isAuthenticated()")
         ul.slide-select
             li(ng-show="identity.currentUser.isAdmin()")
-                a(href="#/admin/users") Users
+                a(href="#/admin/makes") Manage makes
+            li(ng-show="identity.currentUser.isAdmin()")
+                a(href="#/admin/models") Manage models
+            li(ng-show="identity.currentUser.isAdmin()")
+                a(href="#/admin/categories") Manage categories
             li
                 a(href="#/profile") Profile
-            li
+            li(ng-hide="identity.currentUser.isAdmin()")
                 a(href="#/cars/add") Add car ad
+            li(ng-hide="identity.currentUser.isAdmin()")
+                a(href="#/cars/my-ads") My ads
             li
                 a(href="#" ng-click="logout()") Sign Out

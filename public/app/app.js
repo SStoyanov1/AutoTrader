@@ -41,6 +41,51 @@ app.config(function($routeProvider) {
             controller: 'UserListCtrl',
             resolve: routeUserChecks.adminRole
         })
+        .when('/admin/makes', {
+            templateUrl: '/partials/admin/makes-list',
+            controller: 'MakesListCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/makes/add', {
+            templateUrl: '/partials/admin/make-form',
+            controller: 'AddMakeCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/makes/:id', {
+            templateUrl: '/partials/admin/make-form',
+            controller: 'MakeDetailsCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/models', {
+            templateUrl: '/partials/admin/models-list',
+            controller: 'ModelsListCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/models/add', {
+            templateUrl: '/partials/admin/model-form',
+            controller: 'AddModelCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/models/:id', {
+            templateUrl: '/partials/admin/model-form',
+            controller: 'ModelDetailsCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/categories', {
+            templateUrl: '/partials/admin/categories-list',
+            controller: 'CategoriesListCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/categories/add', {
+            templateUrl: '/partials/admin/category-form',
+            controller: 'AddCategoryCtrl',
+            resolve: routeUserChecks.adminRole
+        })
+        .when('/admin/categories/:id', {
+            templateUrl: '/partials/admin/category-form',
+            controller: 'CategoryDetailsCtrl',
+            resolve: routeUserChecks.adminRole
+        })
         .when('/profile', {
             templateUrl: '/partials/account/profile',
             controller: 'ProfileCtrl',
