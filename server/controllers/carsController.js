@@ -115,7 +115,7 @@ module.exports = {
     },
     createCar: function (req, res) {
         var fstream;
-        req.pipe(req.busboy);        
+        req.pipe(req.busboy);
 
         var car = {};
 
