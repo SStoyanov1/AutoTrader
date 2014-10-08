@@ -4,6 +4,84 @@ var mongoose = require('mongoose');
 
 var Car = mongoose.model("Car");
 
+function createCar(data) {
+    var create,
+        Model = mongoose.model("Model"),
+        User = mongoose.model("User"),
+        EngineType = mongoose.model("EngineType"),
+        GearboxType = mongoose.model("GearboxType"),
+        Category = mongoose.model("Category"),
+        Color = mongoose.model("Color");
+
+    create = {
+        data: function(filters) {
+            Model.findOne({ name: filters.model }).populate("make")
+                .exec(function(err, model) {
+                    var obj = {};
+                    obj.model = model;
+
+                    create._getUsers(filters, obj);
+                });
+        },
+        _getUsers: function(filters, dataObject) {
+            User.findOne({ username: filters.username }).exec(function(err, user) {
+                dataObject.user = user;
+
+                create._getEngineTypes(filters, dataObject);
+            });
+        },
+        _getEngineTypes: function(filters, dataObject) {
+            EngineType.findOne({ name: filters.engineType }).exec(function(err, engine) {
+                dataObject.engineType = engine;
+
+                create._getGearboxType(filters, dataObject);
+            });
+        },
+        _getGearboxType: function(filters, dataObject) {
+            GearboxType.findOne({ name: filters.gearboxType }).exec(function(err, gearbox) {
+                dataObject.gearboxType = gearbox;
+
+                create._getCategory(filters, dataObject);
+            });
+        },
+        _getCategory: function(filters, dataObject) {
+            Category.findOne({ name: filters.category }).exec(function(err, category) {
+                dataObject.category = category;
+
+                create._getColor(filters, dataObject);
+            });
+        },
+        _getColor: function(filters, dataObject) {
+            Color.findOne({ name: filters.color }).exec(function(err, color) {
+                dataObject.color = color;
+
+                create._finish(filters, dataObject);
+            });
+        },
+        _finish: function(filters, data) {
+            Car.create({
+                make: data.model.make,
+                model: data.model,
+                user: data.user,
+                engineType: data.engineType,
+                gearboxType: data.gearboxType,
+                category: data.category,
+                color: data.color,
+                price: filters.price,
+                yearOfProduction: filters.yearOfProduction,
+                mileage: filters.mileage,
+                horsepower: filters.horsepower,
+                engineDisplacement: filters.engineDisplacement,
+                photoUrl: filters.photo,
+                description: filters.description,
+                published: new Date()
+            });
+        }
+    };
+
+    create.data(data);
+}
+
 module.exports = {
     getAllCars: function(req, res) {
         Car.find({}).exec(function(err, collection) {
@@ -22,5 +100,6 @@ module.exports = {
 
             res.send(car);
         })
-    }
+    },
+    createCar: createCar
 };
