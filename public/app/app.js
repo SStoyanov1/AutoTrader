@@ -1,8 +1,6 @@
 var app = angular.module('app', ['ngResource', 'ngRoute']).value('toastr', toastr);
 
-app.config(function($routeProvider, $locationProvider) {
-    //$locationProvider.html5Mode(true);
-
+app.config(function($routeProvider) {
     var routeUserChecks = {
         adminRole: {
             authenticate: function(auth) {
