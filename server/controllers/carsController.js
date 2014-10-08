@@ -81,7 +81,7 @@ function addCar(data, res) {
                     return;
                 }
 
-                if (res !== null) {
+                if (res !== null && res !== "seed") {
                     res.send(car);
                 }
             });

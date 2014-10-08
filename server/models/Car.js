@@ -68,7 +68,7 @@ module.exports.seedInitialCars = function() {
                 engineDisplacement: 2000,
                 photoUrl: "no_photo.png",
                 description: "Random description"
-            });
+            }, "seed");
 
             carsController.addCar({
                 make: "Nissan",
@@ -85,7 +85,7 @@ module.exports.seedInitialCars = function() {
                 engineDisplacement: 2962,
                 photoUrl: "no_photo.png",
                 description: "Asen"
-            });
+            }, "seed");
 
             carsController.addCar({
                 make: "Mitsubishi",
@@ -102,7 +102,7 @@ module.exports.seedInitialCars = function() {
                 engineDisplacement: 1997,
                 photoUrl: "no_photo.png",
                 description: "New brake pads and flywheel."
-            });
+            }, "seed");
 
             console.log("Cars added to the database.");
         }
