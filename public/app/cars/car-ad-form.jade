@@ -7,16 +7,10 @@ form(name="carAdForm")
                     p.title Select the car make and model
                     .col
                         label(for='make') Make
-                        select#make.static-select-width(ng-model="ad.make")
-                            option Nissan
-                            option Subaru
-                            option Mitsubishi
+                        div(car-makes-select)
                     .col
                         label(for='model') Model
-                        select#model.static-select-width(ng-model="ad.model")
-                            option GT-R
-                            option Impreza
-                            option Colt
+                        div(car-models-select)
                 .row
                     p.title Year of Production
                     .col
@@ -32,16 +26,10 @@ form(name="carAdForm")
                     p.title Exterior
                     .col
                         label(for='color') Car color
-                        select#color.static-select-width(ng-model="ad.color")
-                            option Red
-                            option Green
-                            option Blue
+                        div(color-select)
                     .col
                         label(for='category') Category
-                        select#category.static-select-width(ng-model="ad.category")
-                            option Sedan
-                            option Coupe
-                            option Hatchback
+                        div(category-select)
             .col
                 .row
                     p.title Price
@@ -53,17 +41,10 @@ form(name="carAdForm")
                     p.title Gearbox & engine
                     .col
                         label(for='gearbox') Gearbox
-                        select#gearbox.stat-sel-raligned-width(ng-model="ad.gearboxType")
-                            option
-                            option Manual
-                            option Sequential
-                            option Automatic
+                        div(gearbox-type-select)
                     .col
                         label(for='engine') Engine
-                        select#engine.stat-sel-raligned-width(ng-model="ad.engineType")
-                            option
-                            option Diesel
-                            option Gasoline
+                        div(engine-type-select)
                 .row
                     p.title Horsepower & engine displacement
                     .col
