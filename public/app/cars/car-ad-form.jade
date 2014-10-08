@@ -1,0 +1,87 @@
+form(name="carAdForm")
+    fieldset
+        legend {{carAdFormTitle}}
+        .row
+            .col
+                .row
+                    p.title Select the car make and model
+                    .col
+                        label(for='make') Make
+                        select#make.static-select-width(ng-model="ad.make")
+                            option Nissan
+                            option Subaru
+                            option Mitsubishi
+                    .col
+                        label(for='model') Model
+                        select#model.static-select-width(ng-model="ad.model")
+                            option GT-R
+                            option Impreza
+                            option Colt
+                .row
+                    p.title Year of Production
+                    .col
+                        label(for='year-of-prod') Pick the year the car was produced
+                        div(year-select)
+                .row
+                    p.title Mileage
+                    .col
+                        label(for='mileage') In kilometers
+                        input#mileage.static-number-width(type='number', min='0', ng-model="ad.mileage")
+                        | km
+                .row
+                    p.title Exterior
+                    .col
+                        label(for='color') Car color
+                        select#color.static-select-width(ng-model="ad.color")
+                            option Red
+                            option Green
+                            option Blue
+                    .col
+                        label(for='category') Category
+                        select#category.static-select-width(ng-model="ad.category")
+                            option Sedan
+                            option Coupe
+                            option Hatchback
+            .col
+                .row
+                    p.title Price
+                    .col
+                        label(for='price') In BGN
+                        input#price.static-number-width(type='number', min='1', ng-model="ad.price")
+                        | BGN
+                .row
+                    p.title Gearbox & engine
+                    .col
+                        label(for='gearbox') Gearbox
+                        select#gearbox.stat-sel-raligned-width(ng-model="ad.gearboxType")
+                            option
+                            option Manual
+                            option Sequential
+                            option Automatic
+                    .col
+                        label(for='engine') Engine
+                        select#engine.stat-sel-raligned-width(ng-model="ad.engineType")
+                            option
+                            option Diesel
+                            option Gasoline
+                .row
+                    p.title Horsepower & engine displacement
+                    .col
+                        label(for='hp') Horsepower
+                        input#hp.static-number-width(type='number', min='1', ng-model="ad.horsepower")
+                        | hp
+                    .col
+                        label(for='displ') Displacement
+                        input#displ.static-number-width(size='10', type='number', min='1', ng-model="ad.engineDisplacement")
+                        | cc
+                .row
+                    p.title &nbsp;
+                    .col
+                        label(for='photo') Photo
+                        input#photo(type='file', ng-model="photo")
+        .row
+            p.title Description
+            label(for='descr') Add additional information about the vehicle
+            textarea#descr(ng-model="ad.description")
+        .row
+            button(ng-click="sendData(ad)", ng-disabled="carAdForm.$invalid") {{carAdFormButton}}

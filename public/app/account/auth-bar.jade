@@ -19,7 +19,9 @@ div(ng-controller='LoginCtrl')
         ul.slide-select
             li(ng-show="identity.currentUser.isAdmin()")
                 a(href="#/admin/users") Users
-            li(ng-show="identity.isAuthenticated()")
+            li
                 a(href="#/profile") Profile
+            li
+                a(href="#/cars/add") Add car ad
             li
                 a(href="#" ng-click="logout()") Sign Out

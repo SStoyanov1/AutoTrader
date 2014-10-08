@@ -1,8 +1,9 @@
+"use strict";
+
 app.directive("authBar", function() {
     return {
         restrict: "A",
         templateUrl: "/partials/account/auth-bar",
-        //scope: {},
         link: function(scope, element, attrs) {
             var $slideMenu = $(".slide-menu");
 

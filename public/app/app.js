@@ -29,6 +29,11 @@ app.config(function($routeProvider, $locationProvider) {
             templateUrl: '/partials/cars/cars-list',
             controller: 'CarsListCtrl'
         })
+        .when('/cars/add', {
+            templateUrl: '/partials/cars/add-car',
+            controller: 'AddCarCtrl',
+            resolve: routeUserChecks.authenticated
+        })
         .when('/cars/:id', {
             templateUrl: '/partials/cars/car-details',
             controller: 'CarDetailsCtrl'
