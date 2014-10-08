@@ -10,6 +10,7 @@ module.exports = function(app) {
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
     app.get('/api/cars', controllers.cars.getAllCars);
+    app.post('/api/cars', controllers.cars.createCar);
     app.get('/api/cars/:id', controllers.cars.getCarById);
 
     app.get('/partials/:partialDir/:partialName', function(req, res) {

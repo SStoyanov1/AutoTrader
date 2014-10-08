@@ -53,7 +53,7 @@ module.exports.seedInitialCars = function() {
         }
 
         if (collection.length === 0) {
-            carsController.createCar({
+            carsController.addCar({
                 make: "Subaru",
                 model: "Impreza",
                 username: "misho",
@@ -70,7 +70,7 @@ module.exports.seedInitialCars = function() {
                 description: "Random description"
             });
 
-            carsController.createCar({
+            carsController.addCar({
                 make: "Nissan",
                 model: "Skyline GT-R R34",
                 username: "gosho",
@@ -87,7 +87,7 @@ module.exports.seedInitialCars = function() {
                 description: "Asen"
             });
 
-            carsController.createCar({
+            carsController.addCar({
                 make: "Mitsubishi",
                 model: "Eclipse",
                 username: "pesho",
