@@ -70,6 +70,40 @@ module.exports.seedInitialCars = function() {
                 description: "Random description"
             });
 
+            carsController.createCar({
+                make: "Nissan",
+                model: "Skyline GT-R R34",
+                username: "gosho",
+                engineType: "Gasoline",
+                gearboxType: "Manual",
+                category: "Coupe",
+                color: "Red",
+                price: 55000,
+                yearOfProduction: 1998,
+                mileage: 25000,
+                horsepower: 550,
+                engineDisplacement: 2962,
+                photoUrl: "no_photo.png",
+                description: "Asen"
+            });
+
+            carsController.createCar({
+                make: "Mitsubishi",
+                model: "Eclipse",
+                username: "pesho",
+                engineType: "Gasoline",
+                gearboxType: "Automatic",
+                category: "Coupe",
+                color: "Green",
+                price: 10000,
+                yearOfProduction: 1998,
+                mileage: 120000,
+                horsepower: 320,
+                engineDisplacement: 1997,
+                photoUrl: "no_photo.png",
+                description: "New brake pads and flywheel."
+            });
+
             console.log("Cars added to the database.");
         }
     });
