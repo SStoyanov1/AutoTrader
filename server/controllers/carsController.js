@@ -96,7 +96,7 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
-        Car.find({}).exec(function (err, collection) {
+        Car.find({}).populate('engineType gearboxType').exec(function (err, collection) {
             if (err) {
                 console.log('Cars could not be loaded: ' + err);
             }

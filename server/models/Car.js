@@ -1,5 +1,7 @@
 var mongoose = require('mongoose'),
     REQUIRED = "{PATH} is required",
+    config = require('../config/config'),
+    picturesPath = '\\img\\cars\\',
     Schema = mongoose.Schema;
 
 var carSchema = mongoose.Schema({
@@ -66,7 +68,7 @@ module.exports.seedInitialCars = function() {
                 mileage: 54000,
                 horsepower: 275,
                 engineDisplacement: 2000,
-                photoUrl: "no_photo.png",
+                photoUrl: picturesPath + "Subaru-Impreza-22b-sti-bright.jpg",
                 description: "Random description"
             }, "seed");
 
@@ -83,7 +85,7 @@ module.exports.seedInitialCars = function() {
                 mileage: 25000,
                 horsepower: 550,
                 engineDisplacement: 2962,
-                photoUrl: "no_photo.png",
+                photoUrl: picturesPath + "skylinegtr.jpg",
                 description: "Asen"
             }, "seed");
 
@@ -100,7 +102,7 @@ module.exports.seedInitialCars = function() {
                 mileage: 120000,
                 horsepower: 320,
                 engineDisplacement: 1997,
-                photoUrl: "no_photo.png",
+                photoUrl: picturesPath + "Mitsubishi_Eclipse_front_20080801.jpg",
                 description: "New brake pads and flywheel."
             }, "seed");
 
