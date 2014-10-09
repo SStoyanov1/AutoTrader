@@ -99,6 +99,7 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
+
         var page = req.query.page || 0;
         var sortCarsBy = req.query.sortBy;
         var isAscending = !!req.query.asc;
@@ -119,7 +120,7 @@ module.exports = {
                 }
 
                 res.send(collection);
-            });
+            })
     },
     getCarById: function (req, res, next) {
         Car.findOne({ _id: req.params.id })
@@ -128,15 +129,32 @@ module.exports = {
                 if (err) {
                     console.log('Car could not be loaded: ' + err);
                     res.status('400');
-                    return res.send('Car could not be loaded');                    
+                    return res.send('Car could not be loaded');
                 }
 
                 res.send(car);
             });
     },
+    searchCar: function (req, res) {
+        var conditions = {};
+
+        for (var key in req.query) {
+            if (req.query.hasOwnProperty(key)) {
+                conditions[key] = req.query[key];
+            }
+        }
+
+        Car.find(conditions).exec(function (err, cars) {
+            if (err) {
+                console.log('Cars could not be loaded: ' + err);
+            }
+
+            res.send({ cars: cars });
+        });
+    },
     createCar: function (req, res, next) {
         var fstream;
-        var car = {};        
+        var car = {};
 
         req.pipe(req.busboy);
 
@@ -152,7 +170,7 @@ module.exports = {
         });
 
         req.busboy.on('finish', function () {
-            car.published = new Date();            
+            car.published = new Date();
             car.user = req.user._id;
             addCar(car, res);
         });
