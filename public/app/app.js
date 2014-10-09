@@ -28,19 +28,29 @@ app.config(function($routeProvider) {
             controller: 'CarsListCtrl'
         })
         .when('/cars/add', {
-            templateUrl: '/partials/cars/add-car',
+            templateUrl: '/partials/cars/car-ad-form',
             controller: 'AddCarCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/cars/my-ads', {
+            templateUrl: '/partials/cars/cars-list',
+            controller: 'MyAdsCtrl',
             resolve: routeUserChecks.authenticated
         })
         .when('/cars/:id', {
             templateUrl: '/partials/cars/car-details',
             controller: 'CarDetailsCtrl'
         })
-        .when('/admin/users', {
-            templateUrl: '/partials/admin/users-list',
-            controller: 'UserListCtrl',
-            resolve: routeUserChecks.adminRole
+        .when('/cars/:id/modify', {
+            templateUrl: '/partials/cars/car-ad-form',
+            controller: 'ModifyCarCtrl',
+            resolve: routeUserChecks.authenticated
         })
+//        .when('/admin/users', {
+//            templateUrl: '/partials/admin/users-list',
+//            controller: 'UserListCtrl',
+//            resolve: routeUserChecks.adminRole
+//        })
         .when('/admin/makes', {
             templateUrl: '/partials/admin/makes-list',
             controller: 'MakesListCtrl',
@@ -91,6 +101,7 @@ app.config(function($routeProvider) {
             controller: 'ProfileCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .otherwise({ redirectTo: "/" });
 });
 
 app.run(function($rootScope, $location) {
