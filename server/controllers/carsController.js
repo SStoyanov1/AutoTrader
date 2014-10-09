@@ -3,6 +3,7 @@ var fs = require('fs');
 var config = require('../config/config');
 //var Car = require('../models/Car'),
 //    Car = require('mongoose').model('Car');
+var pageSize = 10;
 
 var Car = mongoose.model("Car");
 
@@ -95,13 +96,26 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
-        Car.find({}).exec(function (err, collection) {
-            if (err) {
-                console.log('Cars could not be loaded: ' + err);
-            }
-            
-            res.send(collection);
-        })
+        var page = req.query.page || 0;
+        var sortCarsBy = req.query.sortBy;
+        var isAscending = !!req.query.asc;
+        var sortValue = 1;
+
+        if  (!isAscending){
+            sortValue = -1;
+        }
+
+        Car.find({})
+            .skip(page * pageSize)
+            .limit(pageSize)
+            .sort({sortCarsBy: 1})
+            .exec(function (err, collection) {
+                if (err) {
+                    console.log('Cars could not be loaded: ' + err);
+                }
+
+                res.send(collection);
+            })
     },
     getCarById: function (req, res, next) {
         Car.findOne({ _id: req.params.id }).exec(function (err, car) {

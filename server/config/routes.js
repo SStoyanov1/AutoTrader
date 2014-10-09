@@ -18,6 +18,11 @@ module.exports = function(app) {
     app.get('/api/makes/:id', controllers.makes.getMakeById);
     app.put('/api/makes/:id', controllers.makes.updateMake);
 
+    app.get('/api/categories', controllers.categories.getAllCategories);
+    app.post('/api/categories', controllers.categories.createCategory);
+    app.get('/api/categories/:id', controllers.categories.getCategoryById);
+    app.put('/api/categories/:id', controllers.categories.updateCategory);
+
     app.get('/partials/:partialDir/:partialName', function(req, res) {
         res.render('../../public/app/' + req.params.partialDir + '/' + req.params.partialName);
     });
