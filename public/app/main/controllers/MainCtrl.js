@@ -1,10 +1,21 @@
 'use strict';
 
 app.controller('MainCtrl', function($scope, $location, CarResource) {
-    //$scope.cars = CarResource.queryBased.query({ page: 1, sortBy: "yearOfProduction", desc: true });
     $scope.startYearFrom = 1920;
     $scope.startYearTo = $scope.startYearFrom;
     $scope.yearsFrom = generateYearsArray($scope.startYearFrom);
+    $scope.filteredCars = CarResource.queryBased
+        .query({ page: 1, sortBy: "published", desc: true }, function() {
+            $scope.filteredCars.forEach(function (item) {
+                if (!item.photoUrl) {
+                    item.photoUrl = "img/no_photo.png";
+                }
+            });
+
+            if ($scope.filteredCars.length === 10) {
+                $scope.filteredCars.pop();
+            }
+        });
 
     function generateYearsArray(until) {
         var arr = [],
@@ -24,25 +35,4 @@ app.controller('MainCtrl', function($scope, $location, CarResource) {
     $scope.search = function(ad) {
         $location.path("/cars").search(ad);
     };
-
-    // TODO: Delete
-    $scope.filteredCars = [{
-        _id: "23423rfds-344eads-654tafzd-qarzf42",
-        make: { name: "Subaru" },
-        model: { name: "Impreza" },
-        price: 24000,
-        yearOfProduction: 2004,
-        gearboxType: { name: "Manual" },
-        engineType: { name: "Gasoline" },
-        photoUrl: "img/no_photo.png"
-    },{
-        _id: "23423rfds-344eads-654tafzd-qarzf42",
-        make: { name: "Subaru" },
-        model: { name: "Impreza" },
-        price: 24000,
-        yearOfProduction: 2004,
-        gearboxType: { name: "Manual" },
-        engineType: { name: "Gasoline" },
-        photoUrl: "img/no_photo.png"
-    }];
 });

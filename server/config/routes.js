@@ -22,6 +22,7 @@ module.exports = function (app) {
     app.put('/api/makes/:id', controllers.makes.updateMake);
 
     app.get('/api/models', controllers.models.getAllModels);
+    app.post('/api/models', controllers.models.createModel);
     app.get('/api/models/make', controllers.models.getModelByMake);
 
     app.get('/api/categories', controllers.categories.getAllCategories);

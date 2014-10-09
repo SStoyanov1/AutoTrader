@@ -136,6 +136,10 @@ input[type="submit"] {
     cursor: pointer;
 }
 
+input[type="file"] {
+    width: 300px;
+}
+
 button, input, select, a.button, textarea {
     font-family: "Ubuntu", sans-serif;
     font-size: 16px;
@@ -316,21 +320,32 @@ fieldset p.title {
 }
 
 #latest-ads > .thumb-ad {
-    max-width: 32.3%;
+    width: 267px;
 }
 
 .thumb-ad {
+    white-space: nowrap;
     position: relative;
     border: 1px solid #CCC;
     padding: 7px;
     overflow: hidden;
     transition: 0.3s ease;
-    margin-right: 15px;
+    margin: 0 10px 10px 0;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+
     float: left;
 }
+
+.thumb-ad:before {
+    position: absolute;
+    width: 12px; height: 100%;
+    top: 0; right: 0;
+    box-shadow: inset -10px 0 5px -5px #FFF;
+    content: "";
+    display: block;
+}​
 
 .thumb-ad:hover {
     border-color: #dc7421;
@@ -342,6 +357,7 @@ fieldset p.title {
 
 .thumb-ad .info {
     margin-left: 10px;
+    max-width: 20%;
 }
 
 .thumb-ad span.price {
@@ -479,6 +495,8 @@ table.cars span.price:hover {
 }
 
 .ad > .info .gen-data {
+    white-space: nowrap;
+    min-width: 140px;
     overflow: hidden;
     margin-top: 7px;
 }

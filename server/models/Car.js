@@ -29,6 +29,10 @@ var carSchema = mongoose.Schema({
         type: Schema.Types.ObjectId, require: REQUIRED,
         ref: "Category"
     },
+    region: {
+        type: Schema.Types.ObjectId,
+        ref: "Region"
+    },
     color: {
         type: Schema.Types.ObjectId,
         ref: "Color"
@@ -68,6 +72,7 @@ module.exports.seedInitialCars = function() {
                 mileage: 54000,
                 horsepower: 275,
                 engineDisplacement: 2000,
+                region: "Sofia",
                 photoUrl: picturesPath + "Subaru-Impreza-22b-sti-bright.jpg",
                 description: "Random description"
             }, "seed");
@@ -85,6 +90,7 @@ module.exports.seedInitialCars = function() {
                 mileage: 25000,
                 horsepower: 550,
                 engineDisplacement: 2962,
+                region: "Varna",
                 photoUrl: picturesPath + "skylinegtr.jpg",
                 description: "Asen"
             }, "seed");
@@ -102,6 +108,7 @@ module.exports.seedInitialCars = function() {
                 mileage: 120000,
                 horsepower: 320,
                 engineDisplacement: 1997,
+                region: "Plovdiv",
                 photoUrl: picturesPath + "Mitsubishi_Eclipse_front_20080801.jpg",
                 description: "New brake pads and flywheel."
             }, "seed");

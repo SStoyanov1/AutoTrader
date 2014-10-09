@@ -19,36 +19,72 @@ module.exports = {
             return;
         }
 
-        Model.find({ name: newModel.name }).exec(function (err, models) {
+        if(!newModel.make) {
+            res.status(400);
+            res.send({ reason: "Make name is required!" })
+        }
+
+        Make.findOne({ name: newModel.make }).exec(function(err, make) {
             if (err) {
-                console.log('Model could not be loaded: ' + err);
-                res.status('500');
-                return res.send('Model could not be loaded');
+                res.status(500);
+                return res.send({ reason: "Internal server error" });
             }
 
-            if (models.length !== 0) {
-                res.status('400');
-                res.send('Model already exists');
-                return;
-            }
+            Model.findOne({ name: newModel.name }).exec(function(err, model) {
+                var outputModel;
 
-            Model.create(newModel, function (err, model) {
                 if (err) {
-                    console.log('Failed to create new model: ' + err);
-                    res.status(400);
-                    res.send({ reason: "Failed to add model!" });
-                    return;
+                    res.status(500);
+                    return res.send({ reason: "Internal server error" });
                 }
 
-                res.status(201);
-                res.location('/models/'+model._id);
-                res.send({
-                    id: newModel._id,
-                    name: newModel.name,
-                    make: newModel.make
-                });
+                if (model) {
+                    res.status(400);
+                    return res.send({ reason: "Make with this model already exists!" });
+                }
+                else {
+                    outputModel = new Model({
+                        name: newModel.name,
+                        make: make
+                    });
+
+                    outputModel.save(function(err) {
+                        res.send(outputModel);
+                    });
+                }
             });
         });
+
+//        Model.find({ name: newModel.name }).exec(function (err, models) {
+//            if (err) {
+//                console.log('Model could not be loaded: ' + err);
+//                res.status('500');
+//                return res.send('Model could not be loaded');
+//            }
+//
+//            if (models.length !== 0) {
+//                res.status('400');
+//                res.send('Model already exists');
+//                return;
+//            }
+//
+//            Model.create(newModel, function (err, model) {
+//                if (err) {
+//                    console.log('Failed to create new model: ' + err);
+//                    res.status(400);
+//                    res.send({ reason: "Failed to add model!" });
+//                    return;
+//                }
+//
+//                res.status(201);
+//                res.location('/models/'+model._id);
+//                res.send({
+//                    id: newModel._id,
+//                    name: newModel.name,
+//                    make: newModel.make
+//                });
+//            });
+//        });
     },
 
     updateModel: function (req, res) {

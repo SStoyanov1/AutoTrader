@@ -31,6 +31,7 @@ function addCar(data, res) {
         EngineType = mongoose.model("EngineType"),
         GearboxType = mongoose.model("GearboxType"),
         Category = mongoose.model("Category"),
+        Region = mongoose.model("Region"),
         Color = mongoose.model("Color");
 
     create = {
@@ -75,6 +76,13 @@ function addCar(data, res) {
             Color.findOne({ name: filters.color }).exec(function (err, color) {
                 dataObject.color = color;
 
+                create._getRegion(filters, dataObject);
+            });
+        },
+        _getRegion: function(filters, dataObject) {
+            Region.findOne({ name: filters.region }).exec(function(err, region) {
+                dataObject.region = region;
+
                 create._finish(filters, dataObject);
             });
         },
@@ -92,6 +100,7 @@ function addCar(data, res) {
                 mileage: filters.mileage,
                 horsepower: filters.horsepower,
                 engineDisplacement: filters.engineDisplacement,
+                region: data.region,
                 photoUrl: filters.photoUrl,
                 description: filters.description,
                 published: new Date()
@@ -102,7 +111,8 @@ function addCar(data, res) {
                 }
 
                 if (res !== null && res !== "seed") {
-                    res.send(car);
+                    res.redirect("http://localhost:3030/#/cars/my-ads"); // WARNING: VERY BAD; FIND ALTERNATIVE
+                    //res.send(car);
                 }
             });
         }
@@ -228,7 +238,7 @@ module.exports = {
                 }
 
                 Car.find(filter)
-                    .select("make model engineType gearboxType price yearOfProduction")
+                    .select("make model engineType gearboxType price yearOfProduction photoUrl")
                     .populate("make", "name -_id")
                     .populate("model", "name -_id")
                     .populate("engineType", "name -_id")
@@ -266,9 +276,13 @@ module.exports = {
         });
 
         req.busboy.on('finish', function () {
-            car.published = new Date();
-            car.user = req.user._id;
-            addCar(car, res);
+            mongoose.model("User").findOne({ _id: req.user._id }).exec(function(err, user) {
+                car.published = new Date();
+                car.username = user.username;
+                console.log(car);
+
+                addCar(car, res);
+            });
         });
     },
     addCar: addCar,
