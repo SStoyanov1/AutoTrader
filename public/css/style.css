@@ -132,6 +132,10 @@ button, input, select, textarea {
     outline: none;
 }
 
+input[type="submit"] {
+    cursor: pointer;
+}
+
 button, input, select, a.button, textarea {
     font-family: "Ubuntu", sans-serif;
     font-size: 16px;
@@ -399,7 +403,7 @@ table.cars th:first-child {
     width: 50%;
 }
 
-table.cars td:last-child, table.cars th:last-child {
+table.cars td:last-child/*, table.cars th:last-child*/ {
     text-align: right;
 }
 

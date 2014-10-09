@@ -1,5 +1,6 @@
-app.controller('CarDetailsCtrl', function($scope, $routeParams, CarResource) {
+app.controller('CarDetailsCtrl', function($scope, identity, $routeParams, CarResource) {
     //$scope.car = CarResource.get({id: $routeParams.id});
+    $scope.idenity = identity;
 
     // TODO: Sort the mess
     $scope.carData = {

@@ -37,7 +37,7 @@
         p
             span.price-tag {{carData.price}} BGN
         p.edit
-            a.button(href='') Edit
+            a.button(href='#/cars/{{carData._id}}/modify', ng-show="identity.currentUser.isAdmin()") Edit
 h2 Description
 hr
 p.ad-description
