@@ -9,7 +9,7 @@ module.exports = function(app) {
     app.post('/api/users', controllers.users.createUser);
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
-    app.get('/api/cars/picture/:id', controllers.cars.getPicture)
+    app.get('/api/cars/picture/:id', controllers.cars.getPicture);
     app.get('/api/cars', controllers.cars.getAllCars);
     app.get('/api/cars/search', controllers.cars.searchCar);
     app.post('/api/cars', controllers.cars.createCar);    
@@ -19,6 +19,8 @@ module.exports = function(app) {
     app.post('/api/makes', controllers.makes.createMake);
     app.get('/api/makes/:id', controllers.makes.getMakeById);
     app.put('/api/makes/:id', controllers.makes.updateMake);
+
+    app.get('/api/models', controllers.models.getModelByMake);
 
     app.get('/api/categories', controllers.categories.getAllCategories);
     app.post('/api/categories', controllers.categories.createCategory);

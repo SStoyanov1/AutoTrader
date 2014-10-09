@@ -1,9 +1,20 @@
 'use strict';
 
-app.controller('MainCtrl', function($scope, CarResource) {
+app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelResource) {
     $scope.cars = CarResource.query();
     $scope.startYearFrom = 1920;
     $scope.startYearTo = $scope.startYearFrom;
+
+    $scope.makes = MakeResource.query();
+
+    $scope.getMakeModels = function(makeName) {
+        $scope.makes.forEach(function(item) {
+            if (item.name === makeName) {
+                $scope.models = ModelResource.query({ make: item._id });
+                return;
+            }
+        });
+    };
 
     function generateYearsArray(until) {
         var arr = [],

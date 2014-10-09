@@ -103,14 +103,15 @@ module.exports = {
         var isAscending = !!req.query.asc;
         var sortValue = 1;
 
-        if (!isAscending) {
+        if  (!isAscending){
             sortValue = -1;
         }
 
         Car.find({})
+            .populate('gearboxType engineType')
             .skip(page * pageSize)
             .limit(pageSize)
-            .sort({sortCarsBy: sortValue})
+            .sort({ sortCarsBy: 1 })
             .exec(function (err, collection) {
                 if (err) {
                     console.log('Cars could not be loaded: ' + err);
@@ -153,10 +154,10 @@ module.exports = {
         var car = {};
 
         req.busboy.on('file', function (fieldname, file, filename) {
-            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;            
+            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;
             fstream = fs.createWriteStream(filePath);
             file.pipe(fstream);
-            car.photoUrl = filePath;
+            car.photoUrl = '\\img\\cars\\' + filename;
         });
 
         req.busboy.on('field', function (fieldname, val) {
