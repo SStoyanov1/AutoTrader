@@ -65,4 +65,4 @@ form(name="carAdForm", method='post', action='/api/cars', enctype='multipart/for
             label(for='descr') Add additional information about the vehicle
             textarea#descr(ng-model="ad.description", name='description')
         .row
-            input(type='submit', value='{{carAdFormButton}}', ng-click="sendData(ad)", ng-disabled="carAdForm.$invalid")
+            input(type='submit', value='{{carAdFormButton}}' ng-disabled="carAdForm.$invalid")
