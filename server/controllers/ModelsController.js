@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Model = mongoose.model("Model");
+var Make = mongoose.model("Make");
 
 module.exports = {
     createModel: function (req, res) {
@@ -88,6 +89,37 @@ module.exports = {
 
                 res.send(collection);
             })
+    },
+
+    getModelByMake: function (req, res) {
+        Make.findOne({ _id: req.query.make })
+            .exec(function(err, make) {
+                if (err) {
+                    console.log('Model could not be loaded: ' + err);
+                    res.status('500');
+                    res.send('Model could not be loaded');
+                    return;
+                }
+
+                if (make === null) {
+                    res.status('400');
+                    res.send("There no such model");
+                    return;
+                }
+
+                Model.find({ make: make._id })
+                    .select("name")
+                    .exec(function(err, collection) {
+                        if (err) {
+                            console.log('Model could not be loaded: ' + err);
+                            res.status('500');
+                            res.send('Model could not be loaded');
+                            return;
+                        }
+
+                        res.send(collection);
+                    });
+            });
     },
 
     getModelById: function (req, res) {
