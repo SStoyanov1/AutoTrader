@@ -8,7 +8,7 @@ app.directive("carModelsSelect", function(ModelResource) {
             scope.getMakeModels = function(makeName) {
                 scope.makes.forEach(function(item) {
                     if (item.name === makeName) {
-                        scope.models = ModelResource.query({ make: item._id });
+                        scope.models = ModelResource.getByMake.query({ make: item._id });
                         return;
                     }
                 });

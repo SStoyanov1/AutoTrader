@@ -1,6 +1,8 @@
-app.factory('CarResource', function($resource) {
-    var CarResource;
-    CarResource = $resource('/api/cars/:id', {id:'@id'}, { update: {method: 'PUT', isArray: false}});
+"use strict";
 
-    return CarResource;
+app.factory('CarResource', function($resource) {
+    return {
+        paramBased: $resource('/api/cars/:id', {id:'@id'}, { update: {method: 'PUT', isArray: false}}),
+        queryBased: $resource("/api/cars")
+    };
 });

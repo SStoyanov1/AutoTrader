@@ -10,9 +10,9 @@ module.exports = function (app) {
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
     app.get('/api/cars/picture/:id', controllers.cars.getPicture);
-    app.get('/api/cars', controllers.cars.getAllCars);
+    //app.get('/api/cars', controllers.cars.getAllCars);
     app.post('/api/cars', auth.isAuthenticated, controllers.cars.createCar);
-    app.get('/api/cars/search', controllers.cars.searchCar);
+    app.get('/api/cars', controllers.cars.searchCar);
 
     app.get('/api/cars/:id', controllers.cars.getCarById);
 
@@ -21,7 +21,8 @@ module.exports = function (app) {
     app.get('/api/makes/:id', controllers.makes.getMakeById);
     app.put('/api/makes/:id', controllers.makes.updateMake);
 
-    app.get('/api/models', controllers.models.getModelByMake);
+    app.get('/api/models', controllers.models.getAllModels);
+    app.get('/api/models/make', controllers.models.getModelByMake);
 
     app.get('/api/categories', controllers.categories.getAllCategories);
     app.post('/api/categories', controllers.categories.createCategory);

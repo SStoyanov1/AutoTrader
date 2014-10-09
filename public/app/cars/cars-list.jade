@@ -1,24 +1,22 @@
 .title-options
     h2 {{listTitle}}
     .options
-        button <
-        input(type='text', size='2', value='1', maxlength='2')
-        button >
+        button(ng-click="prevPage()") <
+        input(type='text', size='2', maxlength='2', ng-model="page", ng-change="setPage()")
+        button(ng-click="nextPage()") >
         a.button(href='#/cars/add', ng-show="identity.isAuthenticated()") Add
 table.cars
     thead
         tr
-            th
-                | Car
-                span ⇅
+            th Car
             th
                 | Year
-                span ⇅
+                span(ng-click="sortBy('yearOfProduction')") ⇅
             th Engine
             th Gearbox
             th(colspan="2")
                 | Price
-                span ⇅
+                span(ng-click="sortBy('price')") ⇅
     tbody
         tr(ng-repeat="car in cars")
             td

@@ -203,14 +203,16 @@ module.exports = {
             _filterCar: function(cond, filter) {
                 var year = filterBetween(cond.yearFrom, cond.yearTo);
                 var price = filterBetween(cond.fromPrice, cond.toPrice);
+                var page = cond.page - 1;
                 var sortObject = {};
                 var sortCriteria;
+                var ascDesc;
 
                 if (cond.sortBy) {
                     sortCriteria = cond.sortBy;
                     ascDesc = 1;
 
-                    if (cond.desc) {
+                    if (cond.desc == "true") {
                         ascDesc = -1;
                     }
 
@@ -226,13 +228,13 @@ module.exports = {
                 }
 
                 Car.find(filter)
-                    .select("make model engineType gearboxType price")
+                    .select("make model engineType gearboxType price yearOfProduction")
                     .populate("make", "name -_id")
                     .populate("model", "name -_id")
                     .populate("engineType", "name -_id")
                     .populate("gearboxType", "name -_id")
                     .sort(sortObject)
-                    .skip(cond.page * PAGE_SIZE)
+                    .skip(page * PAGE_SIZE)
                     .limit(PAGE_SIZE)
                     .exec(function(err, cars) {
                         if (err) {

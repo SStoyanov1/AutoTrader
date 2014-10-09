@@ -1,9 +1,30 @@
 ﻿var mongoose = require('mongoose');
 var Make = mongoose.model("Make");
+var PAGE_SIZE = 10;
 
 module.exports = {
-    getAllMakes: function (req, res) {
-        Make.find({}).select('_id name').exec(function (err, collection) {
+//    getAllMakes: function (req, res) {
+//        Make.find({}).select('_id name').exec(function (err, collection) {
+//            if (err) {
+//                console.log('Makes could not be loaded: ' + err);
+//                res.status('500');
+//                res.send('Makes could not be loaded');
+//                return;
+//            }
+//
+//            res.send(collection);
+//        })
+//    },
+    getAllMakes: function(req, res) {
+        var ascDesc = 1;
+
+        if (req.query.desc == "true") {
+            ascDesc = -1;
+        }
+
+        Make.find({})
+            .sort({ "name": ascDesc })
+            .exec(function (err, collection) {
             if (err) {
                 console.log('Makes could not be loaded: ' + err);
                 res.status('500');

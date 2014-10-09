@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelResource, GearboxTypeResource, EngineTypeResource) {
-    $scope.cars = CarResource.query();
+app.controller('MainCtrl', function($scope, $location, CarResource) {
+    //$scope.cars = CarResource.queryBased.query({ page: 1, sortBy: "yearOfProduction", desc: true });
     $scope.startYearFrom = 1920;
     $scope.startYearTo = $scope.startYearFrom;
     $scope.yearsFrom = generateYearsArray($scope.startYearFrom);
@@ -22,7 +22,7 @@ app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelReso
     };
 
     $scope.search = function(ad) {
-        console.log(ad);
+        $location.path("/cars").search(ad);
     };
 
     // TODO: Delete

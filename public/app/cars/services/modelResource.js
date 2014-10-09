@@ -1,5 +1,8 @@
 "use strict";
 
 app.factory("ModelResource", function($resource) {
-    return $resource("/api/models");
+    return {
+        getAll: $resource("/api/models"),
+        getByMake: $resource("/api/models/make")
+    };
 });

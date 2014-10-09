@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Model = mongoose.model("Model");
 var Make = mongoose.model("Make");
+var PAGE_SIZE = 10;
 
 module.exports = {
     createModel: function (req, res) {
@@ -76,9 +77,19 @@ module.exports = {
     },
 
     getAllModels: function (req, res) {
+        var ascDesc = 1;
+        var page = req.query.page - 1;
+
+        if (req.query.desc == "true") {
+            ascDesc = -1;
+        }
+
         Model.find({})
-          //  .populate('_id make')
-            .select('name make')
+            .select("make name _id")
+            .populate("make", "name -_id")
+            .sort({ "name": ascDesc })
+            .skip(page * PAGE_SIZE)
+            .limit(PAGE_SIZE)
             .exec(function (err, collection) {
                 if (err) {
                     console.log('Models could not be loaded: ' + err);

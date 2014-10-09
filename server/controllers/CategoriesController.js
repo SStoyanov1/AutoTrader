@@ -74,8 +74,15 @@ module.exports = {
     },
 
     getAllCategories: function (req, res) {
+        var ascDesc = 1;
+
+        if (req.query.desc == "true") {
+            ascDesc = -1;
+        }
+
         Category.find({})
-            .select('name')
+            .select("name _id")
+            .sort({ "name": ascDesc })
             .exec(function (err, collection) {
                 if (err) {
                     console.log('Categories could not be loaded: ' + err);

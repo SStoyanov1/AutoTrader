@@ -5,7 +5,7 @@ app.directive("carMakesSelect", function(MakeResource) {
         restrict: "A",
         templateUrl: "/partials/cars/car-makes-select",
         link: function(scope, element, attrs) {
-            scope.makes = MakeResource.query();
+            scope.makes = MakeResource.getAll.query();
         },
         replace: true
     }

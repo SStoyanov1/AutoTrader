@@ -1,16 +1,13 @@
 .title-options
     h2 Car categories
     .options
-        button <
-        input(type='text', size='2', value='1', maxlength='2')
-        button >
         a.button(href='#/admin/categories/add') Add
 table.cars
     thead
         tr
             th
                 | Category name
-                span(ng-click="sort()") ⇅
+                span(ng-click="sortBy('')") ⇅
             th
     tbody
         tr(ng-repeat="category in categories")

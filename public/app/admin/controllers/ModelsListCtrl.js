@@ -1,20 +1,22 @@
 "use strict";
 
 app.controller("ModelsListCtrl",
-    function ModelsListCtrl($scope) {
-        $scope.sortAsc = true;
-        $scope.models = [{
-            _id: "123r53-t54wgfse-rqfe24rq-r43fda",
-            make: { name: "Lada" },
-            name: "2105"
-        }, {
-            _id: "123r53-t54wgfse-rqfe24rq-r43fda",
-            make: { name: "Fiat" },
-            name: "125p"
-        }, {
-            _id: "123r53-t54wgfse-rqfe24rq-r43fda",
-            make: { name: "Porsche" },
-            name: "918 Spyder"
-        }];
+    function ModelsListCtrl($scope, ModelResource, sort, paging) {
+        $scope.page = 1;
+        var queryParams = {
+            page: 1,
+            desc: false
+        };
+
+        updateModelData();
+
+        $scope.sortBy = function(param) { sort.by(param, queryParams, updateModelData); };
+        $scope.prevPage = function() { paging.prev($scope, queryParams, updateModelData); };
+        $scope.setPage = function() { paging.set($scope, queryParams, updateModelData); };
+        $scope.nextPage = function() { paging.next($scope, queryParams, updateModelData); };
+
+        function updateModelData() {
+            $scope.models = ModelResource.getAll.query(queryParams);
+        }
     }
 );

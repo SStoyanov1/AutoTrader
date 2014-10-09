@@ -5,7 +5,7 @@ app.directive("categorySelect", function(CategoryResource) {
         restrict: "A",
         templateUrl: "/partials/cars/category-select",
         link: function(scope, element, attrs) {
-            scope.categories = CategoryResource.query();
+            scope.categories = CategoryResource.getAll.query();
         },
         replace: true
     }

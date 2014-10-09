@@ -1,18 +1,18 @@
 .title-options
     h2 Car models
     .options
-        button <
-        input(type='text', size='2', value='1', maxlength='2')
-        button >
+        button(ng-click="prevPage()") <
+        input(type='text', size='2', maxlength='2', ng-model="page", ng-change="setPage()")
+        button(ng-click="nextPage()") >
         a.button(href='#/admin/models/add') Add
 table.cars
     thead
         tr
             th
                 | Make name
-                span(ng-click="sort()") ⇅
             th
                 | Model name
+                span(ng-click="sortBy('')") ⇅
             th
     tbody
         tr(ng-repeat="model in models")

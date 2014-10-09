@@ -25,7 +25,8 @@ app.config(function($routeProvider) {
         })
         .when('/cars', {
             templateUrl: '/partials/cars/cars-list',
-            controller: 'CarsListCtrl'
+            controller: 'CarsListCtrl',
+            reloadOnSearch: false
         })
         .when('/cars/add', {
             templateUrl: '/partials/cars/car-ad-form',

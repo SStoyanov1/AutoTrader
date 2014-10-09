@@ -1,27 +1,17 @@
 "use strict";
 
 app.controller("MakesListCtrl",
-    function MakesListCtrl($scope) {
-        $scope.sortAsc = true;
-        $scope.makes = [{
-            _id: "123r53-t54wgfse-rqfe24rq-r43fda",
-            name: "Mercedes-Benz"
-        }, {
-            _id: "123r53-t54wgfse-rqfe24rq-r43fda",
-            name: "BMW"
-        }, {
-            _id: "123r53-t54wgfse-rqfe24rq-r43fda",
-            name: "Volkswagen"
-        }];
+    function MakesListCtrl($scope, MakeResource, sort) {
+        var queryParams = { desc: true };
 
-        $scope.sort = function() {
-            console.log($scope.sortAsc);
+        updateMakeData();
 
-            if ($scope.sortAsc) {
-                $scope.sortAsc = false;
-            } else {
-                $scope.sortAsc = true;
-            }
+        $scope.sortBy = function(param) {
+            sort.by(param, queryParams, updateMakeData);
+        };
+
+        function updateMakeData() {
+            $scope.makes = MakeResource.getAll.query(queryParams);
         }
     }
 );
