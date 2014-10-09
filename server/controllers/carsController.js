@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
+var path = require('path');
 var config = require('../config/config');
 //var Car = require('../models/Car'),
 //    Car = require('mongoose').model('Car');
@@ -75,7 +76,7 @@ function addCar(data, res) {
                 mileage: filters.mileage,
                 horsepower: filters.horsepower,
                 engineDisplacement: filters.engineDisplacement,
-                photoUrl: filters.photo,
+                photoUrl: filters.photoUrl,
                 description: filters.description,
                 published: new Date()
             }, function (err, car) {
@@ -96,6 +97,7 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
+<<<<<<< HEAD
         var page = req.query.page || 0;
         var sortCarsBy = req.query.sortBy;
         var isAscending = !!req.query.asc;
@@ -116,6 +118,15 @@ module.exports = {
 
                 res.send(collection);
             })
+=======
+        Car.find({}).exec(function (err, collection) {
+            if (err) {
+                console.log('Cars could not be loaded: ' + err);
+            }
+
+            res.send(collection);
+        })
+>>>>>>> 5c69c70079fab663817b250cd60e7c7fa8f392b7
     },
     getCarById: function (req, res, next) {
         Car.findOne({ _id: req.params.id }).exec(function (err, car) {
@@ -129,27 +140,36 @@ module.exports = {
     createCar: function (req, res) {
         var fstream;
         req.pipe(req.busboy);
-
         var car = {};
 
         req.busboy.on('file', function (fieldname, file, filename) {
-            console.log('in photo');
-            var filePath = config.rootPath + '/public/img/cars/' + filename;
-            console.log(filePath);
+            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;            
             fstream = fs.createWriteStream(filePath);
             file.pipe(fstream);
             car.photoUrl = filePath;
         });
 
         req.busboy.on('field', function (fieldname, val) {
-            console.log('in field');
             car[fieldname] = val;
         });
 
         req.busboy.on('finish', function () {
-            console.log('in finish');
             addCar(car, res);
         });
     },
-    addCar: addCar
+    addCar: addCar,
+    getPicture: function (req, res) {
+        Car.findOne({ _id: req.params.id }).exec(function (err, car) {
+            if (err) {
+                res.status('400');
+                return res.send("There no such car");
+            }
+
+            if (req.query.attachment === 'true') {
+                res.download(car.photoUrl);
+            } else {
+                res.sendFile(path.resolve(car.photoUrl));
+            }
+        });
+    }
 };

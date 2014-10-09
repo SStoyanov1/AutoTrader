@@ -11,5 +11,6 @@ module.exports = {
         rootPath: rootPath,
         db: "mongodb://admin:autotraderdb@ds063909.mongolab.com:63909/autotraderdb",
         port: process.env.PORT || 3030
-    }
+    },
+    rootPath: rootPath
 };

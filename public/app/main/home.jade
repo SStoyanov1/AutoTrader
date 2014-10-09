@@ -24,10 +24,12 @@ form(name="searchForm")
                     p.title Year of Production
                     .col
                         label(for='from-year') From
-                        div(year-select)
+                        select#year-of-prod.stat-sel-raligned-width(ng-model="ad.yearFrom", ng-change="updateToYears()")
+                            option(ng-repeat="year in yearsFrom") {{year}}
                     .col
                         label(for='to-year') To
-                        div(year-select)
+                        select#year-of-prod.stat-sel-raligned-width(ng-model="ad.yearTo")
+                            option(ng-repeat="year in yearsTo") {{year}}
                 .row
                     p.title Other
                     .col

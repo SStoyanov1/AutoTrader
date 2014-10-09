@@ -9,8 +9,11 @@
             p
                 span.price {{car.price}} BGN
             p
-                span.field Year: {{car.yearOfProduction}}
+                span.field Year:
+                |  {{car.yearOfProduction}}
             p
-                span.field Engine: {{car.engineType.name}}
+                span.field Engine:
+                |  {{car.engineType.name}}
             p
-                span.field Gearbox: {{car.gearboxType.name}}
+                span.field Gearbox:
+                |  {{car.gearboxType.name}}
