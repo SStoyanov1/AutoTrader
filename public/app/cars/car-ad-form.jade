@@ -17,9 +17,12 @@ form(name="carAdForm", method='post', action='/api/cars', enctype='multipart/for
                         label(for='year-of-prod') Pick the year the car was produced
                         div(year-select)
                 .row
-                    p.title Mileage
+                    p.title Region & Mileage
                     .col
-                        label(for='mileage') In kilometers
+                        label(for='region') Region
+                        div(region-select)
+                    .col
+                        label(for='mileage') Mileage (In kilometers)
                         input#mileage.static-number-width(type='number', min='0', ng-model="ad.mileage", name='mileage')
                         | km
                 .row
@@ -38,7 +41,7 @@ form(name="carAdForm", method='post', action='/api/cars', enctype='multipart/for
                         input#price.static-number-width(type='number', min='1', ng-model="ad.price", name='price')
                         | BGN
                 .row
-                    p.title Gearbox & engine
+                    p.title Gearbox & Engine
                     .col
                         label(for='gearbox') Gearbox
                         div(gearbox-type-select)
@@ -46,7 +49,7 @@ form(name="carAdForm", method='post', action='/api/cars', enctype='multipart/for
                         label(for='engine') Engine
                         div(engine-type-select)
                 .row
-                    p.title Horsepower & engine displacement
+                    p.title Horsepower & Engine Displacement
                     .col
                         label(for='hp') Horsepower
                         input#hp.static-number-width(type='number', min='1', ng-model="ad.horsepower", name='horsepower')
@@ -65,4 +68,4 @@ form(name="carAdForm", method='post', action='/api/cars', enctype='multipart/for
             label(for='descr') Add additional information about the vehicle
             textarea#descr(ng-model="ad.description", name='description')
         .row
-            input(type='submit', value='{{carAdFormButton}}' ng-disabled="carAdForm.$invalid")
+            input(type='submit', ng-click="sendData(ad)", value='{{carAdFormButton}}' ng-disabled="carAdForm.$invalid")

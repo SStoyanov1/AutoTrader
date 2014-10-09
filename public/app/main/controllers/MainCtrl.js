@@ -1,20 +1,10 @@
 'use strict';
 
-app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelResource) {
+app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelResource, GearboxTypeResource, EngineTypeResource) {
     $scope.cars = CarResource.query();
     $scope.startYearFrom = 1920;
     $scope.startYearTo = $scope.startYearFrom;
-
-    $scope.makes = MakeResource.query();
-
-    $scope.getMakeModels = function(makeName) {
-        $scope.makes.forEach(function(item) {
-            if (item.name === makeName) {
-                $scope.models = ModelResource.query({ make: item._id });
-                return;
-            }
-        });
-    };
+    $scope.yearsFrom = generateYearsArray($scope.startYearFrom);
 
     function generateYearsArray(until) {
         var arr = [],
@@ -27,12 +17,15 @@ app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelReso
         return arr;
     }
 
-    $scope.yearsFrom = generateYearsArray($scope.startYearFrom);
-
     $scope.updateToYears = function() {
         $scope.yearsTo = generateYearsArray($scope.ad.yearFrom);
     };
 
+    $scope.search = function(ad) {
+        console.log(ad);
+    };
+
+    // TODO: Delete
     $scope.filteredCars = [{
         _id: "23423rfds-344eads-654tafzd-qarzf42",
         make: { name: "Subaru" },
@@ -52,10 +45,4 @@ app.controller('MainCtrl', function($scope, CarResource, MakeResource, ModelReso
         engineType: { name: "Gasoline" },
         photoUrl: "img/no_photo.png"
     }];
-
-
-
-    $scope.search = function(ad) {
-        console.log(ad);
-    };
 });

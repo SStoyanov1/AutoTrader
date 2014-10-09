@@ -6,7 +6,6 @@ app.controller("AddCarCtrl",
         $scope.carAdFormButton = "ADD";
 
         $scope.sendData = function(adData) {
-            console.log("sent");
             console.log(adData);
         };
     }
