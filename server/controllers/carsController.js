@@ -4,6 +4,7 @@ var path = require('path');
 var config = require('../config/config');
 //var Car = require('../models/Car'),
 //    Car = require('mongoose').model('Car');
+var pageSize = 10;
 
 var Car = mongoose.model("Car");
 
@@ -96,13 +97,27 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
-        Car.find({}).populate('engineType gearboxType').exec(function (err, collection) {
-            if (err) {
-                console.log('Cars could not be loaded: ' + err);
-            }
+        var page = req.query.page || 0;
+        var sortCarsBy = req.query.sortBy;
+        var isAscending = !!req.query.asc;
+        var sortValue = 1;
 
-            res.send(collection);
-        })
+        if (!isAscending) {
+            sortValue = -1;
+        }
+
+        Car.find({})
+            .populate('gearboxType engineType')
+            .skip(page * pageSize)
+            .limit(pageSize)
+            .sort({ sortCarsBy: 1 })
+            .exec(function (err, collection) {
+                if (err) {
+                    console.log('Cars could not be loaded: ' + err);
+                }
+
+                res.send(collection);
+            });
     },
     getCarById: function (req, res, next) {
         Car.findOne({ _id: req.params.id }).exec(function (err, car) {
@@ -119,10 +134,10 @@ module.exports = {
         var car = {};
 
         req.busboy.on('file', function (fieldname, file, filename) {
-            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;            
+            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;
             fstream = fs.createWriteStream(filePath);
             file.pipe(fstream);
-            car.photoUrl = filePath;
+            car.photoUrl = '\\img\\cars\\' + filename;
         });
 
         req.busboy.on('field', function (fieldname, val) {
