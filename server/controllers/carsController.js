@@ -97,20 +97,20 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
-<<<<<<< HEAD
+
         var page = req.query.page || 0;
         var sortCarsBy = req.query.sortBy;
         var isAscending = !!req.query.asc;
         var sortValue = 1;
 
-        if  (!isAscending){
+        if (!isAscending) {
             sortValue = -1;
         }
 
-        Car.find({})
+        Car.find()
             .skip(page * pageSize)
             .limit(pageSize)
-            .sort({sortCarsBy: 1})
+            .sort({sortCarsBy: sortValue})
             .exec(function (err, collection) {
                 if (err) {
                     console.log('Cars could not be loaded: ' + err);
@@ -118,18 +118,29 @@ module.exports = {
 
                 res.send(collection);
             })
-=======
-        Car.find({}).exec(function (err, collection) {
+
+    },
+
+    searchCar: function (req, res) {
+        var conditions = {};
+
+        for (var key in req.query) {
+            if (req.query.hasOwnProperty(key)) {
+                conditions[key] = req.query[key];
+            }
+        }
+
+        Car.find(conditions).exec(function (err, cars) {
             if (err) {
                 console.log('Cars could not be loaded: ' + err);
             }
 
-            res.send(collection);
-        })
->>>>>>> 5c69c70079fab663817b250cd60e7c7fa8f392b7
+            res.send({ cars: cars });
+        });
     },
-    getCarById: function (req, res, next) {
-        Car.findOne({ _id: req.params.id }).exec(function (err, car) {
+
+    getCarById: function (req, res) {
+        Car.findOne({ _id: req.params.id }).exec(function (err) {
             if (err) {
                 console.log('Car could not be loaded: ' + err);
             }
@@ -143,7 +154,7 @@ module.exports = {
         var car = {};
 
         req.busboy.on('file', function (fieldname, file, filename) {
-            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;            
+            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;
             fstream = fs.createWriteStream(filePath);
             file.pipe(fstream);
             car.photoUrl = filePath;

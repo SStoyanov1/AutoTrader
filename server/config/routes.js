@@ -11,6 +11,7 @@ module.exports = function(app) {
 
     app.get('/api/cars/picture/:id', controllers.cars.getPicture)
     app.get('/api/cars', controllers.cars.getAllCars);
+    app.get('/api/cars/search', controllers.cars.searchCar);
     app.post('/api/cars', controllers.cars.createCar);    
     app.get('/api/cars/:id', controllers.cars.getCarById);
 
