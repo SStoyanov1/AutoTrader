@@ -28,6 +28,11 @@ module.exports = function (app) {
     app.get('/api/categories/:id', controllers.categories.getCategoryById);
     app.put('/api/categories/:id', controllers.categories.updateCategory);
 
+    app.get('/api/colors', controllers.colors.getAllColors);
+    app.get('/api/engines', controllers.engineTypes.getAllEngineTypes);
+    app.get('/api/gearboxes', controllers.gearboxTypes.getAllGearboxTypes);
+    app.get('/api/regions', controllers.regions.getAllRegions);
+
     app.get('/partials/:partialDir/:partialName', function (req, res) {
         res.render('../../public/app/' + req.params.partialDir + '/' + req.params.partialName);
     });
