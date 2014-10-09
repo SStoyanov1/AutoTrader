@@ -6,9 +6,23 @@ var config = require('../config/config');
 
 //var Car = require('../models/Car'),
 //    Car = require('mongoose').model('Car');
-var pageSize = 10;
+var PAGE_SIZE = 10;
 
 var Car = mongoose.model("Car");
+
+function filterBetween(from, to) {
+    var filter;
+
+    if (from && to) {
+        filter = { $gte: from, $lte: to };
+    } else if (from) {
+        filter = { $gte: from };
+    } else if (to) {
+        filter = { $lte: to };
+    }
+
+    return filter;
+}
 
 function addCar(data, res) {
     var create,
@@ -111,8 +125,8 @@ module.exports = {
 
         Car.find({})
             .populate('gearboxType engineType make model')
-            .skip(page * pageSize)
-            .limit(pageSize)
+            .skip(page * PAGE_SIZE)
+            .limit(PAGE_SIZE)
             .sort({ sortCarsBy: 1 })
             .exec(function (err, collection) {
                 if (err) {
@@ -136,7 +150,11 @@ module.exports = {
             });
     },
     searchCar: function (req, res) {
-        var conditions = {};
+        var conditions = {},
+            Make = mongoose.model("Make"),
+            Model = mongoose.model("Model"),
+            GearboxType = mongoose.model("GearboxType"),
+            EngineType = mongoose.model("EngineType");
 
         for (var key in req.query) {
             if (req.query.hasOwnProperty(key)) {
@@ -144,13 +162,89 @@ module.exports = {
             }
         }
 
-        Car.find(conditions).exec(function (err, cars) {
-            if (err) {
-                console.log('Cars could not be loaded: ' + err);
-            }
+        var searchQuery = {
+            init: function(cond) {
+                Make.findOne({ name: cond.make }).exec(function(err, make) {
+                    var filter = {};
+                    if (make) {
+                        filter.make = make._id;
+                    }
 
-            res.send({ cars: cars });
-        });
+                    searchQuery._filterModel(cond, filter);
+                });
+            },
+            _filterModel: function(cond, filter) {
+                Model.findOne({ name: cond.model }).exec(function(err, model) {
+                    if (model) {
+                        filter.model = model._id;
+                    }
+                    // TODO Something
+                    searchQuery._filterGearbox(cond, filter);
+                });
+            },
+            _filterGearbox: function(cond, filter) {
+                GearboxType.findOne({ name: cond.gearboxType }).exec(function(err, gearbox) {
+                    if (gearbox) {
+                        filter.gearboxType = gearbox._id;
+                    }
+
+                    searchQuery._filterEngine(cond, filter);
+                });
+            },
+            _filterEngine: function(cond, filter) {
+                EngineType.findOne({ name: cond.engineType }).exec(function(err, engine) {
+                    if (engine) {
+                        filter.engineType = engine._id;
+                    }
+
+                    searchQuery._filterCar(cond, filter);
+                });
+            },
+            _filterCar: function(cond, filter) {
+                var year = filterBetween(cond.yearFrom, cond.yearTo);
+                var price = filterBetween(cond.fromPrice, cond.toPrice);
+                var sortObject = {};
+                var sortCriteria;
+
+                if (cond.sortBy) {
+                    sortCriteria = cond.sortBy;
+                    ascDesc = 1;
+
+                    if (cond.desc) {
+                        ascDesc = -1;
+                    }
+
+                    sortObject[sortCriteria] = ascDesc;
+                }
+
+                if (year) {
+                    filter.yearOfProduction = year;
+                }
+
+                if (price) {
+                    filter.price = price;
+                }
+
+                Car.find(filter)
+                    .select("make model engineType gearboxType price")
+                    .populate("make", "name -_id")
+                    .populate("model", "name -_id")
+                    .populate("engineType", "name -_id")
+                    .populate("gearboxType", "name -_id")
+                    .sort(sortObject)
+                    .skip(cond.page * PAGE_SIZE)
+                    .limit(PAGE_SIZE)
+                    .exec(function(err, cars) {
+                        if (err) {
+                            console.log("An error occurred while fetching cars: " + err);
+                        }
+
+                        res.send(cars);
+                    });
+            }
+        };
+
+        searchQuery.init(conditions);
     },
     createCar: function (req, res, next) {
         var fstream;
