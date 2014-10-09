@@ -1,19 +1,21 @@
-app.controller('CarDetailsCtrl', function($scope, identity, $routeParams, CarResource) {    
+app.controller('CarDetailsCtrl', function ($scope, identity, $routeParams, CarResource) {
     $scope.idenity = identity;
 
-    //CarResource.get({ id:$routeParams.id}).$promise.then(function(car) {
-    //  $scope.carData = car;
-    //});
-
-    var cars = CarResource.query();
-
-
-    for (var i = 0; i < cars.length; i++) {
-        if (cars[i]._id === $routeParams.id) {
-            $scope.carData = cars[i];
-            break;
+    CarResource.get({ id: $routeParams.id }).$promise.then(function (car) {
+        $scope.carData = car;
+        if (!$scope.carData.photoUrl) {
+            $scope.carData.photoUrl = "img/no_photo.png";
         }
-    }
+    });
+
+    //var cars = CarResource.query({ id: });
+
+    //for (var i = 0; i < cars.length; i++) {
+    //    if (cars[i]._id === $routeParams.id) {
+    //        $scope.carData = cars[i];
+    //        break;
+    //    }
+    //}
 
     // TODO: Sort the mess
     //$scope.carData =
@@ -40,11 +42,5 @@ app.controller('CarDetailsCtrl', function($scope, identity, $routeParams, CarRes
     //        email: "pesho@supercaro.com",
     //        phoneNumber: "+1888 234 543"
     //    }
-    //};
-
-    //$scope.carData.addedOn = $scope.carData.addedOn.toUTCString();
-
-    //if (!$scope.carData.photoUrl) {
-    //    $scope.carData.photoUrl = "img/no_photo.png";
-    //}
+    //};    
 });

@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
+var auth = require('../config/auth');
 var config = require('../config/config');
+
 //var Car = require('../models/Car'),
 //    Car = require('mongoose').model('Car');
 var pageSize = 10;
@@ -107,7 +109,7 @@ module.exports = {
         }
 
         Car.find({})
-            .populate('gearboxType engineType')
+            .populate('gearboxType engineType make model')
             .skip(page * pageSize)
             .limit(pageSize)
             .sort({ sortCarsBy: 1 })
@@ -120,18 +122,23 @@ module.exports = {
             });
     },
     getCarById: function (req, res, next) {
-        Car.findOne({ _id: req.params.id }).exec(function (err, car) {
-            if (err) {
-                console.log('Car could not be loaded: ' + err);
-            }
+        Car.findOne({ _id: req.params.id })
+            .populate('make model engineType gearboxType color category user region')
+            .exec(function (err, car) {
+                if (err) {
+                    console.log('Car could not be loaded: ' + err);
+                    res.status('400');
+                    return res.send('Car could not be loaded');                    
+                }
 
-            res.redirect('/api/cars');
-        })
+                res.send(car);
+            });
     },
-    createCar: function (req, res) {
+    createCar: function (req, res, next) {
         var fstream;
+        var car = {};        
+
         req.pipe(req.busboy);
-        var car = {};
 
         req.busboy.on('file', function (fieldname, file, filename) {
             var filePath = config.rootPath + 'public\\img\\cars\\' + filename;
@@ -145,6 +152,8 @@ module.exports = {
         });
 
         req.busboy.on('finish', function () {
+            car.published = new Date();            
+            car.user = req.user._id;
             addCar(car, res);
         });
     },

@@ -4,14 +4,14 @@ var auth = require('./auth'),
     Car = mongoose.model('Car'),
     controllers = require('../controllers');
 
-module.exports = function(app) {
+module.exports = function (app) {
     app.get('/api/users', auth.isInRole('admin'), controllers.users.getAllUsers);
     app.post('/api/users', controllers.users.createUser);
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
     app.get('/api/cars/picture/:id', controllers.cars.getPicture)
     app.get('/api/cars', controllers.cars.getAllCars);
-    app.post('/api/cars', controllers.cars.createCar);    
+    app.post('/api/cars', auth.isAuthenticated, controllers.cars.createCar);
     app.get('/api/cars/:id', controllers.cars.getCarById);
 
     app.get('/api/makes', controllers.makes.getAllMakes);
@@ -24,19 +24,19 @@ module.exports = function(app) {
     app.get('/api/categories/:id', controllers.categories.getCategoryById);
     app.put('/api/categories/:id', controllers.categories.updateCategory);
 
-    app.get('/partials/:partialDir/:partialName', function(req, res) {
+    app.get('/partials/:partialDir/:partialName', function (req, res) {
         res.render('../../public/app/' + req.params.partialDir + '/' + req.params.partialName);
     });
 
     app.post('/login', auth.login);
     app.post('/logout', auth.logout);
 
-    app.get('/api/*', function(req, res) {
+    app.get('/api/*', function (req, res) {
         res.status(404);
         res.end();
     });
 
-    app.get('*', function(req, res) {
-        res.render('index', {currentUser: req.user});
+    app.get('*', function (req, res) {
+        res.render('index', { currentUser: req.user });
     });
 };

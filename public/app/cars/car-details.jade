@@ -49,7 +49,7 @@ p.ad-description
         strong(ng-if="carData.user.representativeName")  ({{carData.user.representativeName}})
         br
         | Date:
-        strong  {{carData.addedOn}}
+        strong  {{carData.published | date: 'd MMM, HH:mm' }}
     p
         | Email:
         strong  {{carData.user.email}}
