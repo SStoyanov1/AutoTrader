@@ -116,8 +116,8 @@ module.exports = {
                     console.log('Cars could not be loaded: ' + err);
                 }
 
-                res.send(collection);            })
-
+                res.send(collection);
+            })
     },
 
     searchCar: function (req, res) {
