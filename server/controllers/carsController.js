@@ -97,7 +97,6 @@ function addCar(data, res) {
 
 module.exports = {
     getAllCars: function (req, res) {
-<<<<<<< HEAD
         var page = req.query.page || 0;
         var sortCarsBy = req.query.sortBy;
         var isAscending = !!req.query.asc;
@@ -117,16 +116,7 @@ module.exports = {
                 }
 
                 res.send(collection);
-            })
-=======
-        Car.find({}).exec(function (err, collection) {
-            if (err) {
-                console.log('Cars could not be loaded: ' + err);
-            }
-
-            res.send(collection);
-        })
->>>>>>> 5c69c70079fab663817b250cd60e7c7fa8f392b7
+            });
     },
     getCarById: function (req, res, next) {
         Car.findOne({ _id: req.params.id }).exec(function (err, car) {
