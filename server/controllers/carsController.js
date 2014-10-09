@@ -107,7 +107,7 @@ module.exports = {
             sortValue = -1;
         }
 
-        Car.find()
+        Car.find({})
             .skip(page * pageSize)
             .limit(pageSize)
             .sort({sortCarsBy: sortValue})
@@ -116,8 +116,7 @@ module.exports = {
                     console.log('Cars could not be loaded: ' + err);
                 }
 
-                res.send(collection);
-            })
+                res.send(collection);            })
 
     },
 
@@ -154,7 +153,7 @@ module.exports = {
         var car = {};
 
         req.busboy.on('file', function (fieldname, file, filename) {
-            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;
+            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;            
             fstream = fs.createWriteStream(filePath);
             file.pipe(fstream);
             car.photoUrl = filePath;
