@@ -103,7 +103,7 @@ app.config(function($routeProvider) {
             resolve: routeUserChecks.authenticated
         })
         .otherwise({ redirectTo: "/" });
-});
+}).value('socket', new io());
 
 app.run(function($rootScope, $location) {
     $rootScope.$on('$routeChangeError', function(ev, current, previous, rejection) {

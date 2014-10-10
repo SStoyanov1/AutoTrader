@@ -1,14 +1,14 @@
 "use strict";
 
 app.controller("AddModelCtrl",
-    function AddModelCtrl($scope, $location, ModelResource, notifier) {
+    function AddModelCtrl($scope, $location, ModelResource, notifier, socket) {
         $scope.manipName = "Add new";
         $scope.buttonName = "ADD";
 
         $scope.manipulateModel = function(model) {
             ModelResource.getAll.save(model,
-                function() {
-                    notifier.success(model.make + " " + model.name + " has been added successfully!");
+                function (data) {
+                    socket.emit('model added', data);                      
                     $location.path("/admin/models");
                 },
                 function(response) {

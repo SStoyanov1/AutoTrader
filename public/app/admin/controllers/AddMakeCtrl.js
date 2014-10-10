@@ -1,14 +1,14 @@
 "use strict";
 
 app.controller("AddMakeCtrl",
-    function AddMakeCtrl($scope, MakeResource, $location, notifier) {
+    function AddMakeCtrl($scope, MakeResource, $location, notifier, socket) {
         $scope.manipName = "Add new";
-        $scope.buttonName = "ADD";
+        $scope.buttonName = "ADD";        
 
-        $scope.manipulateMake = function(name) {
+        $scope.manipulateMake = function (name) {
             MakeResource.getAll.save({ name: name },
-                function () {
-                    notifier.success(name + " make has been added!");
+                function (data) {
+                    socket.emit('make added', data);                   
                     $location.path("/admin/makes");
                 },
                 function (response) {

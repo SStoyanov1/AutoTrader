@@ -1,11 +1,11 @@
 'use strict';
 
-app.controller('MainCtrl', function($scope, $location, CarResource) {
+app.controller('MainCtrl', function ($scope, $location, CarResource, socket, notifier) {
     $scope.startYearFrom = 1920;
     $scope.startYearTo = $scope.startYearFrom;
     $scope.yearsFrom = generateYearsArray($scope.startYearFrom);
     $scope.filteredCars = CarResource.queryBased
-        .query({ page: 1, sortBy: "published", desc: true }, function() {
+        .query({ page: 1, sortBy: "published", desc: true }, function () {
             $scope.filteredCars.forEach(function (item) {
                 if (!item.photoUrl) {
                     item.photoUrl = "img/no_photo.png";
@@ -28,11 +28,23 @@ app.controller('MainCtrl', function($scope, $location, CarResource) {
         return arr;
     }
 
-    $scope.updateToYears = function() {
+    $scope.updateToYears = function () {
         $scope.yearsTo = generateYearsArray($scope.ad.yearFrom);
     };
 
-    $scope.search = function(ad) {
+    $scope.search = function (ad) {
         $location.path("/cars").search(ad);
     };
+
+    socket.on('make added', function (make) {
+        notifier.success(make.name + " make has been added!");
+    });
+
+    socket.on('model added', function (model) {
+        notifier.success(model.make + " " + model.name + " has been added successfully!");
+    });
+
+    socket.on('category added', function (category) {
+        notifier.success(category.name + " category has been added!");
+    });
 });
