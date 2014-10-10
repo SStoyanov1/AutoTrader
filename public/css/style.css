@@ -484,26 +484,34 @@ table.cars span.price:hover {
     margin-right: 20px;
 }
 
-.ad > .info {
-
+.ad .detailed-data {
+    width: 570px;
+    overflow: hidden;
 }
 
-.ad > .price {
+.ad .detailed-data > div {
+    float: left;
+}
+
+.ad .detailed-data > div.price {
     float: right;
-    padding-top: 15px;
     text-align: right;
+    padding-top: 10px;
 }
 
-.ad > .info .gen-data {
-    white-space: nowrap;
-    min-width: 140px;
+.ad .info .gen-data {
     overflow: hidden;
     margin-top: 7px;
 }
 
-.ad .info p {
-    margin: 5px 15px 0 15px;
+.ad .general {
+    white-space: nowrap;
+}
+
+.ad .general p {
+    margin: 5px 0 0 0;
     font-size: 16px;
+    float: left;
 }
 
 .ad h3 {
@@ -527,8 +535,7 @@ table.cars span.price:hover {
 }
 
 .ad .additional-info {
-    margin-top: 42px;
-    padding: 0 15px;
+    padding: 12px 10px 0 20px;
 }
 
 .ad .additional-info > p {
@@ -576,7 +583,6 @@ p.ad-description {
 /* Icons */
 
 .car-info-icon {
-    position: relative;
     background: url(../img/car_info.png);
     width: 43px; height: 30px;
     margin-right: 15px;
