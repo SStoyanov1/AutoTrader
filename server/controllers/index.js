@@ -1,4 +1,4 @@
-var usersController = require('../controllers/usersController');
+var usersController = require('../controllers/controller');
 var carsController = require('../controllers/carsController');
 var makesController = require('../controllers/MakesController');
 var categoriesController = require('../controllers/CategoriesController');
