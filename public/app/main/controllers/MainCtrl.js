@@ -41,7 +41,7 @@ app.controller('MainCtrl', function ($scope, $location, CarResource, socket, not
     });
 
     socket.on('model added', function (model) {
-        notifier.success(model.make + " " + model.name + " has been added successfully!");
+        notifier.success("Model " + model.name + " has been added successfully!");
     });
 
     socket.on('category added', function (category) {

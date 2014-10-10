@@ -9,20 +9,7 @@ require('./server/config/passport')();
 require('./server/config/routes')(app);
 
 var io = require('socket.io')(app.listen(config.port));
-
-io.on('connection', function (socket) {
-    socket.on('make added', function (data) {
-        io.emit('make added', data);
-    });
-
-    socket.on('model added', function (data) {
-        io.emit('model added', data);
-    });
-
-    socket.on('category added', function (data) {
-        io.emit('category added', data);
-    });
-});
+require('./server/config/socket')(io);
 
 console.log('Server running on port: ' + config.port);
 console.log(env);
