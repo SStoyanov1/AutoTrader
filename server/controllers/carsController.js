@@ -229,6 +229,10 @@ module.exports = {
                     sortObject[sortCriteria] = ascDesc;
                 }
 
+                if (cond.isMine) {
+                    filter.user = req.user._id;
+                }
+
                 if (year) {
                     filter.yearOfProduction = year;
                 }

@@ -10,9 +10,9 @@ module.exports = function (app) {
     app.put('/api/users', auth.isAuthenticated, controllers.users.updateUser);
 
     app.get('/api/cars/picture/:id', controllers.cars.getPicture);
+    app.get('/api/cars', controllers.cars.searchCar);
     //app.get('/api/cars', controllers.cars.getAllCars);
     app.post('/api/cars', auth.isAuthenticated, controllers.cars.createCar);
-    app.get('/api/cars', controllers.cars.searchCar);
 
     app.get('/api/cars/:id', controllers.cars.getCarById);
 
