@@ -134,7 +134,7 @@ module.exports = {
         }
 
         Car.find({})
-            .populate('gearboxType engineType make model')
+            .populate('user gearboxType engineType make model')
             .skip(page * PAGE_SIZE)
             .limit(PAGE_SIZE)
             .sort({ sortCarsBy: 1 })

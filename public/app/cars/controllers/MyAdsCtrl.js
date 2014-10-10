@@ -1,19 +1,19 @@
-app.controller('MyAdsCtrl', function($scope, identity, CarResource) {
+app.controller('MyAdsCtrl', function ($scope, identity, CarResource) {
     $scope.listTitle = "My ads";
     $scope.identity = identity;
 
-    $scope.cars = [{
-        _id: "143ds4-rtewfsf4-3rwff4-54ref",
-        make: { name: "Mercedes-Benz" },
-        model: { name: "CLA" },
-        engineType: { name: "Diesel" },
-        gearboxType: { name: "Automatic" },
-        yearOfProduction: 2013,
-        photoUrl: "https://file.kbb.com/kbb/images/content/editorial/slideshow/2014-mercedes-benz-cla-drive/2014-mercedes-benz-cla-09-600-001.jpg",
-        price: 120000
-    }];
+    $scope.cars = [];
 
-    $scope.cars.forEach(function(item) {
+    console.log(identity.currentUser);
+    CarResource.queryBased.query({ user: identity.currentUser }, function (data) {
+        console.log(data);
+        for (var i = 0, carsLength = data.length; i < carsLength; i += 1) {
+            // TODO: add if to filter only user ads
+            $scope.cars.push(data[i]);
+        }
+    });
+
+    $scope.cars.forEach(function (item) {
         if (!item.photoUrl) {
             item.photoUrl = "img/no_photo.png";
         }
