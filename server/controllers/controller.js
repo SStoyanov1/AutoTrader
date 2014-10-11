@@ -5,6 +5,8 @@ module.exports = {
     createUser: function(req, res, next) {
         var newUserData = req.body;
 
+        newUserData.roles = ["standard"];
+
         if (!newUserData.confirmPassword || !newUserData.password) {
             res.status(400);
             return res.send({ reason: "Password(s) is/are missing!" });
