@@ -3,9 +3,8 @@ var fs = require('fs');
 var path = require('path');
 var auth = require('../config/auth');
 var config = require('../config/config');
+var uuid = require("uuid")
 
-//var Car = require('../models/Car'),
-//    Car = require('mongoose').model('Car');
 var PAGE_SIZE = 10;
 
 var Car = mongoose.model("Car");
@@ -269,10 +268,13 @@ module.exports = {
         req.pipe(req.busboy);
 
         req.busboy.on('file', function (fieldname, file, filename) {
-            var filePath = config.rootPath + 'public\\img\\cars\\' + filename;
+            var fComponenets = filename.split(".");
+            var extension = fComponenets[fComponenets.length - 1];
+            var fileName = uuid.v4() + "." + extension;
+            var filePath = config.rootPath + 'public\\img\\cars\\' + fileName;
             fstream = fs.createWriteStream(filePath);
             file.pipe(fstream);
-            car.photoUrl = '\\img\\cars\\' + filename;
+            car.photoUrl = '\\img\\cars\\' + fileName;
         });
 
         req.busboy.on('field', function (fieldname, val) {
@@ -283,7 +285,6 @@ module.exports = {
             mongoose.model("User").findOne({ _id: req.user._id }).exec(function(err, user) {
                 car.published = new Date();
                 car.username = user.username;
-                console.log(car);
 
                 addCar(car, res);
             });
